@@ -1,0 +1,4 @@
+interface Observer {
+
+    void newUpdate();
+}
