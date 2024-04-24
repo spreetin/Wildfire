@@ -1,15 +1,22 @@
-public class Model{
+import java.util.List;
+
+public class Model implements Observer{
+
+    List<Observer> listeners;
+    Cell[][] map;
 
     public void setGridSize(int x, int y){
         // TODO: Implement
     }
 
-    public void hasUpdate(){
-        // TODO: Implement
+    private void hasUpdate(){
+        for (Observer o: listeners) {
+           o.newUpdate();
+        }
     }
 
     public void registerListener(Observer obj){
-        // TODO: Implement
+        listeners.add(obj);
     }
 
     public Coordinate[] updatedCells(){
@@ -20,5 +27,10 @@ public class Model{
     public Cell retrieveCell(int x, int y){
         // TODO: Implement
         return null;
+    }
+
+    @Override
+    public void newUpdate() {
+
     }
 }
