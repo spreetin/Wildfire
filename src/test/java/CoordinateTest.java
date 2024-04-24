@@ -2,8 +2,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CoordinateTest {
@@ -39,6 +37,7 @@ public class CoordinateTest {
         Coordinate c1 = new Coordinate(x1, y1);
         assertEquals(c1, new Coordinate(x1, y1));
         assertNotEquals(c1, new Coordinate(x2, y2));
+        //noinspection SuspiciousNameCombination
         assertNotEquals(c1, new Coordinate(y1, x1));
     }
 
@@ -49,6 +48,7 @@ public class CoordinateTest {
         int y1 = 5, y2 = 26;
         Coordinate c1 = new Coordinate(x1, y1);
         assertEquals(c1.hashCode(), new Coordinate(x1, y1).hashCode());
+        //noinspection SuspiciousNameCombination
         assertNotEquals(c1.hashCode(), new Coordinate(y1, x1).hashCode());
         assertNotEquals(c1.hashCode(), new Coordinate(x2, y2).hashCode());
     }

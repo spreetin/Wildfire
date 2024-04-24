@@ -15,10 +15,10 @@ public class Cell {
     }
 
     public void setNeighbourBurning(){
-        // TODO: Implement
+        m_burning += 10;
     }
 
     public void setBurnedLevel(int level){
-        // TODO: Implement
+        m_burning = level;
     }
 }

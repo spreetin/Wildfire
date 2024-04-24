@@ -7,11 +7,11 @@ public final class Coordinate {
         this.y = y;
     }
 
-    public final int x(){
+    public int x(){
         return x;
     }
 
-    public final int y(){
+    public int y(){
         return y;
     }
 
@@ -24,10 +24,7 @@ public final class Coordinate {
             return false;
         }
         Coordinate other = (Coordinate) o;
-        if (this.x == other.x() && this.y == other.y()) {
-            return true;
-        }
-        return false;
+        return this.x == other.x() && this.y == other.y();
     }
 
     @Override

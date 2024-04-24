@@ -44,5 +44,6 @@ public class CellTest {
         } else {
             assertFalse(cell.burnedOut());
         }
+        cell.setBurnedLevel(cell.burnedLevel() - 10);
     }
 }
