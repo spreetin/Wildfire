@@ -1,4 +1,4 @@
 interface Observer {
 
-    void newUpdate();
+    void newUpdate(Object o);
 }

@@ -47,7 +47,7 @@ public class Calculator {
 
     private void hasUpdate(){
         for (Observer o: listeners) {
-            o.newUpdate();
+            o.newUpdate(this);
         }
     }
 }

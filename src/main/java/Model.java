@@ -11,7 +11,7 @@ public class Model implements Observer{
 
     private void hasUpdate(){
         for (Observer o: listeners) {
-           o.newUpdate();
+           o.newUpdate(this);
         }
     }
 
@@ -30,7 +30,7 @@ public class Model implements Observer{
     }
 
     @Override
-    public void newUpdate() {
+    public void newUpdate(Object o) {
 
     }
 }
