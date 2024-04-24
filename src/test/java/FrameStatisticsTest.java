@@ -4,15 +4,22 @@ import org.junit.jupiter.api.Test;
 
 public class FrameStatisticsTest {
 
-    FrameStatistics fs;
+    static FrameStatistics fs;
 
     @BeforeAll
-    void setUp(){
+    static void setUp(){
         fs = new FrameStatistics();
+        Cell[][] map = new Cell[2][2];
+        map[0][0] = new Cell(80);
+        map[0][1] = new Cell(70);
+        map[1][0] = new Cell(60);
+        map[1][1] = new Cell(90);
+        fs.setStartingMap(map);
+        // Need additional setup
     }
 
     @AfterAll
-    void tearDown(){
+    static void tearDown(){
 
     }
 

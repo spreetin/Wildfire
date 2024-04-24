@@ -11,6 +11,10 @@ public class FrameStatistics implements Observer{
         return ticks.containsKey(tick);
     }
 
+    public void setStartingMap(Cell[][] map){
+        startingMap = map;
+    }
+
     public Cell[][] getTick(int tick){
         int width = startingMap.length;
         if (width == 0)
