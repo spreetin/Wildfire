@@ -29,6 +29,10 @@ public class Model implements Observer{
         return null;
     }
 
+    public Cell retrieveCell(Coordinate coordinate){
+        return retrieveCell(coordinate.x(), coordinate.y());
+    }
+
     @Override
     public void newUpdate(Object o) {
 

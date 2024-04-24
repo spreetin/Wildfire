@@ -38,6 +38,23 @@ public class FrameStatistics implements Observer{
 
     @Override
     public void newUpdate(Object o) {
-
+        // Cast o to Model class
+        if (!(o instanceof Model model))
+            return;
+        Map<Coordinate, Cell> updatesInTick = new HashMap<>();
+        Coordinate[] updatedCells = model.updatedCells();
+        for (Coordinate coordinate : updatedCells){
+            updatesInTick.put(coordinate, model.retrieveCell(coordinate));
+        }
+        currentTick++;
+        // Clean out all superseded ticks.
+        for (int i=currentTick;;i++){
+            if (ticks.containsKey(i)) {
+                ticks.remove(i);
+            } else {
+                break;
+            }
+        }
+        ticks.put(currentTick, updatesInTick);
     }
 }
