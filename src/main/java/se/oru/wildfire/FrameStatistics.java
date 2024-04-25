@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class FrameStatistics implements Observer {
 
-    private int currentTick = 0;
+    int currentTick = 0;
     Map<Integer, Map<Coordinate, Cell>> ticks = new HashMap<>();
     Cell[][] startingMap;
 
