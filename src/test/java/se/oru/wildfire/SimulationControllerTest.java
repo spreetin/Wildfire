@@ -1,30 +1,27 @@
+package se.oru.wildfire;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class ModelTest {
+public class SimulationControllerTest {
     @Test
-    void setGridSize() {
+    void run() {
         fail();
     }
 
     @Test
-    void hasUpdate() {
+    void pause() {
         fail();
     }
 
     @Test
-    void registerListener() {
+    void setWindSpeed() {
         fail();
     }
 
     @Test
-    void updatedCells() {
-        fail();
-    }
-
-    @Test
-    void retrieveCell() {
+    void setWindDirection() {
         fail();
     }
 }

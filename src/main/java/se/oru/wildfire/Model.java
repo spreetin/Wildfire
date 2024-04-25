@@ -11,6 +11,10 @@ public class Model implements Observer {
         // TODO: Implement
     }
 
+    public void setInitialMap(InitialMap map){
+        // TODO: Implement
+    }
+
     private void hasUpdate(){
         for (Observer o: listeners) {
            o.newUpdate(this);

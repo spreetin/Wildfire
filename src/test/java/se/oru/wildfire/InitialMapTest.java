@@ -1,3 +1,5 @@
+package se.oru.wildfire;
+
 import org.junit.jupiter.api.*;
 import se.oru.wildfire.Cell;
 import se.oru.wildfire.Coordinate;
