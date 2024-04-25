@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import se.oru.wildfire.Cell;
+import se.oru.wildfire.FrameStatistics;
 
 public class FrameStatisticsTest {
 

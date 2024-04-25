@@ -1,3 +1,5 @@
+package se.oru.wildfire;
+
 public class Cell {
 
     private int m_burning = 0;

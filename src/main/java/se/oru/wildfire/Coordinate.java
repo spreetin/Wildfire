@@ -1,3 +1,5 @@
+package se.oru.wildfire;
+
 public final class Coordinate {
     private final int x;
     private final int y;

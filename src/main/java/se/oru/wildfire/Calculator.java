@@ -1,3 +1,5 @@
+package se.oru.wildfire;
+
 import java.util.*;
 
 public class Calculator {

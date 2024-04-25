@@ -1,7 +1,9 @@
-import java.util.HashMap;
-import java.util.Map;
+package se.oru.wildfire;
 
-public class View implements Observer{
+import se.oru.wildfire.Coordinate;
+import se.oru.wildfire.Observer;
+
+public class View implements Observer {
     @Override
     public void newUpdate(Object o) {
         // Cast o to Model class

@@ -1,7 +1,12 @@
+package se.oru.wildfire;
+
+import se.oru.wildfire.Cell;
+import se.oru.wildfire.Coordinate;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class FrameStatistics implements Observer{
+public class FrameStatistics implements Observer {
 
     private int currentTick = 0;
     Map<Integer, Map<Coordinate, Cell>> ticks = new HashMap<>();

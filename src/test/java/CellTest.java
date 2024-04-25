@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import se.oru.wildfire.Cell;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,8 @@
+package se.oru.wildfire;
+
 import java.util.List;
 
-public class Model implements Observer{
+public class Model implements Observer {
 
     List<Observer> listeners;
     Cell[][] map;

@@ -1,3 +1,5 @@
+package se.oru.wildfire;
+
 public class SimulationController {
 
     public void run(){
