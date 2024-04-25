@@ -53,15 +53,16 @@ public class ModelTest {
     @Test
     void updatedCells() {
         Model model = new Model();
+        model.setGridSize(4, 4);
         NotifierTestClass notifierTestClass = new NotifierTestClass();
         Map<Coordinate, Cell> map = new HashMap<>();
-        map.put(new Coordinate(3, 4), new Cell(10));
+        map.put(new Coordinate(3, 2), new Cell(10));
         notifierTestClass.setMap(map);
         model.newUpdate(notifierTestClass);
         Coordinate[] coordinates = model.updatedCells();
-        assertEquals(coordinates.length, 1);
-        assertEquals(coordinates[0].x(), 3);
-        assertEquals(coordinates[0].y(), 4);
+        assertEquals(1, coordinates.length);
+        assertEquals(3, coordinates[0].x());
+        assertEquals(2, coordinates[0].y());
     }
 
     @Test
