@@ -18,6 +18,7 @@ public class Controller implements ActionListener {
     public Controller(){
         model.registerListener(view);
         model.registerListener(frameStatistics);
+        model.registerListener(calculator);
         calculator.registerListener(model);
     }
 

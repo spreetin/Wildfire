@@ -2,7 +2,7 @@ package se.oru.wildfire;
 
 import java.util.List;
 
-public class Model implements Observer {
+public class Model implements Observer, Notifier {
 
     List<Observer> listeners;
     Cell[][] map;
@@ -20,7 +20,7 @@ public class Model implements Observer {
         // TODO: Implement
     }
 
-    private void hasUpdate(){
+    public void hasUpdate(){
         for (Observer o: listeners) {
            o.newUpdate(this);
         }
@@ -30,11 +30,19 @@ public class Model implements Observer {
         listeners.add(obj);
     }
 
+    @Override
+    public boolean isDifferent(int x, int y){
+        // TODO: Implement
+        return false;
+    }
+
+    @Override
     public Coordinate[] updatedCells(){
         // TODO: Implement
         return new Coordinate[0];
     }
 
+    @Override
     public Cell retrieveCell(int x, int y){
         // TODO: Implement
         return null;
@@ -45,7 +53,7 @@ public class Model implements Observer {
     }
 
     @Override
-    public void newUpdate(Object o) {
+    public void newUpdate(Notifier o) {
 
     }
 }

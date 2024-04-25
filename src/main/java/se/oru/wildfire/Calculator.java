@@ -5,7 +5,7 @@ import java.util.concurrent.Callable;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
-public class Calculator {
+public class Calculator implements Observer, Notifier{
 
     List<Observer> listeners;
     Map<Coordinate, Cell> frontier;
@@ -68,15 +68,26 @@ public class Calculator {
         hasUpdate();
     }
 
-    public boolean isDifferent(int x, int y){
-        return updatedCells.containsKey(new Coordinate(x, y));
+    @Override
+    public Coordinate[] updatedCells(){
+        return updatedCells.keySet().toArray(new Coordinate[0]);
     }
 
-    public Cell retrieveUpdatedCell(int x, int y){
+    @Override
+    public Cell retrieveCell(int x, int y){
         if (isDifferent(x, y)){
             return updatedCells.get(new Coordinate(x, y));
         }
         return null;
+    }
+
+    @Override
+    public Cell retrieveCell(Coordinate coordinate){
+        return retrieveCell(coordinate.x(), coordinate.y());
+    }
+
+    public boolean isDifferent(int x, int y){
+        return updatedCells.containsKey(new Coordinate(x, y));
     }
 
     public void registerListener(Observer obj){
@@ -86,6 +97,24 @@ public class Calculator {
     private void hasUpdate(){
         for (Observer o: listeners) {
             o.newUpdate(this);
+        }
+    }
+
+    @Override
+    public void newUpdate(Notifier o) {
+        // Cast o to Model class
+        if (!(o instanceof Model model))
+            return;
+        if (frontier.isEmpty()){
+            setBaseState(model);
+        } else {
+            Coordinate[] modelUpdatedCells = model.updatedCells();
+            for (Coordinate coordinate : modelUpdatedCells){
+                if (!updatedCells.containsKey(coordinate)){
+                    setBaseState(model);
+                    return;
+                }
+            }
         }
     }
 }

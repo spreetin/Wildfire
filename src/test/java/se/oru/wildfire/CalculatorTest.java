@@ -3,8 +3,6 @@ package se.oru.wildfire;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import se.oru.wildfire.Calculator;
-import se.oru.wildfire.Model;
 
 import java.util.Map;
 
@@ -54,7 +52,7 @@ public class CalculatorTest {
     @Order(2)
     void needUpdate() {
         Map<Coordinate, Cell> frontier = calculator.getFrontier();
-        needUpdate();
+        calculator.needUpdate();
         assertNotEquals(frontier, calculator.getFrontier());
     }
 
@@ -72,7 +70,7 @@ public class CalculatorTest {
     @Test
     @Order(4)
     void retrieveUpdatedCell() {
-        Cell cell = calculator.retrieveUpdatedCell(0, 0);
+        Cell cell = calculator.retrieveCell(0, 0);
         assertNotEquals(cell.burnedLevel(), 80);
         assertEquals(cell.burnedLevel(), 90);
     }

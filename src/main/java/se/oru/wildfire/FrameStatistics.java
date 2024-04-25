@@ -46,14 +46,12 @@ public class FrameStatistics implements Observer {
     }
 
     @Override
-    public void newUpdate(Object o) {
+    public void newUpdate(Notifier o) {
         // Cast o to Model class
-        if (!(o instanceof Model model))
-            return;
         Map<Coordinate, Cell> updatesInTick = new HashMap<>();
-        Coordinate[] updatedCells = model.updatedCells();
+        Coordinate[] updatedCells = o.updatedCells();
         for (Coordinate coordinate : updatedCells){
-            updatesInTick.put(coordinate, model.retrieveCell(coordinate));
+            updatesInTick.put(coordinate, o.retrieveCell(coordinate));
         }
         currentTick++;
         // Clean out all superseded ticks.
