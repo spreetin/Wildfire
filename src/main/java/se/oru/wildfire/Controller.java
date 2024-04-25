@@ -36,7 +36,6 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO: Implement
-        // Requests a calculation of the next frame
+        calculator.needUpdate();
     }
 }
