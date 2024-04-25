@@ -2,6 +2,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class CalculatorTest {
 
     @BeforeEach
@@ -14,13 +16,16 @@ public class CalculatorTest {
 
     @Test
     void needUpdate() {
+        fail();
     }
 
     @Test
     void isDifferent() {
+        fail();
     }
 
     @Test
     void retrieveUpdatedCell() {
+        fail();
     }
 }

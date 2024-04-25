@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import se.oru.wildfire.Cell;
 import se.oru.wildfire.FrameStatistics;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class FrameStatisticsTest {
 
     static FrameStatistics fs;
@@ -27,17 +29,21 @@ public class FrameStatisticsTest {
 
     @Test
     void hasTick() {
+        fail();
     }
 
     @Test
     void getTick() {
+        fail();
     }
 
     @Test
     void newUpdate() {
+        fail();
     }
 
     @Test
     void setCurrentTick() {
+        fail();
     }
 }
