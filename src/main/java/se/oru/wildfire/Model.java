@@ -11,6 +11,11 @@ public class Model implements Observer {
         // TODO: Implement
     }
 
+    public Coordinate getGridSize(){
+        // TODO: Implement
+        return null;
+    }
+
     public void setInitialMap(InitialMap map){
         // TODO: Implement
     }

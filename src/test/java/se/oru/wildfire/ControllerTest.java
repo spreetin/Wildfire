@@ -1,18 +1,31 @@
 package se.oru.wildfire;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ControllerTest {
-    @Test
-    void startTimer() {
-        fail();
+
+    static Controller controller;
+
+    @BeforeAll
+    static void setUp(){
+        controller = new Controller();
     }
 
     @Test
+    @Order(1)
+    void startTimer() {
+        controller.startTimer();
+        assertTrue(controller.timer.isRunning());
+    }
+
+    @Test
+    @Order(2)
     void pauseTimer() {
-        fail();
+        controller.pauseTimer();
+        assertFalse(controller.timer.isRunning());
     }
 }

@@ -32,5 +32,11 @@ public class ModelTest {
 
     @Test
     void setInitialMap() {
+        fail();
+    }
+
+    @Test
+    void getGridSize() {
+        fail();
     }
 }

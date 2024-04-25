@@ -14,6 +14,22 @@ public class Calculator {
         updatedCells = new HashMap<>();
     }
 
+    Map<Coordinate, Cell> getFrontier(){
+        return frontier;
+    }
+
+    public void setBaseState(Model model){
+        Coordinate size = model.getGridSize();
+        frontier.clear();
+        for (int i=0;i<size.x();i++){
+            for (int j=0;j<size.y();j++){
+                if (model.retrieveCell(i, j).isBurning()){
+
+                }
+            }
+        }
+    }
+
     public void needUpdate(){
         updatedCells.clear();
         for (Coordinate coord : frontier.keySet()){
