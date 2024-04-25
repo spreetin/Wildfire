@@ -1,6 +1,9 @@
 package se.oru.wildfire;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.DoublePredicate;
+import java.util.function.Predicate;
 
 public class Calculator {
 
@@ -24,7 +27,24 @@ public class Calculator {
         for (int i=0;i<size.x();i++){
             for (int j=0;j<size.y();j++){
                 if (model.retrieveCell(i, j).isBurning()){
-
+                    if (!frontier.containsKey(new Coordinate(i, j))){
+                        frontier.put(new Coordinate(i, j), model.retrieveCell(i, j));
+                    }
+                    if (j != 0){
+                        if (!frontier.containsKey(new Coordinate(i, j-1))){
+                            frontier.put(new Coordinate(i, j-1), model.retrieveCell(i, j-1));
+                        }
+                    }
+                    if (i+1 < size.x()){
+                        if (!frontier.containsKey(new Coordinate(i+1, j))){
+                            frontier.put(new Coordinate(i+1, j), model.retrieveCell(i+1, j));
+                        }
+                    }
+                    if (j+1 < size.y()){
+                        if (!frontier.containsKey(new Coordinate(i, j+1))){
+                            frontier.put(new Coordinate(i, j+1), model.retrieveCell(i, j+1));
+                        }
+                    }
                 }
             }
         }
