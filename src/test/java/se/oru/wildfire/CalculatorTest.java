@@ -33,6 +33,8 @@ public class CalculatorTest {
         model.setInitialMap(initialMap);
     }
 
+
+
     @Test
     @Order(1)
     void setBaseState() {
