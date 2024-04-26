@@ -17,6 +17,7 @@ import javax.swing.*;
 public class MainWindow {
 
     View view;
+    Controller controller;
 
     public MainWindow(){
         Stage newWindow = new Stage();
@@ -74,6 +75,8 @@ public class MainWindow {
         newWindow.setScene(new Scene(horizontalSplit));
         newWindow.setMinHeight(700);
         newWindow.setMinWidth(1000);
+
+        controller = new Controller(view);
         newWindow.show();
     }
 }
