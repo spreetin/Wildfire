@@ -53,9 +53,10 @@ public class CalculatorTest {
     @Test
     @Order(2)
     void needUpdate() {
-        Map<Coordinate, Cell> frontier = calculator.getFrontier();
+        Coordinate[] updated = calculator.updatedCells();
         calculator.needUpdate();
-        assertNotEquals(frontier, calculator.getFrontier());
+        Coordinate[] updated2 = calculator.updatedCells();
+        assertNotEquals(updated, calculator.updatedCells());
     }
     @Test
     @Order(6)
