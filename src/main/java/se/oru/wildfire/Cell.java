@@ -2,7 +2,14 @@ package se.oru.wildfire;
 
 public class Cell {
 
+    enum GroundType {
+        Trees,
+        Water,
+        Stone
+    };
+
     private int m_burning = 0;
+    private GroundType m_type = GroundType.Trees;
 
     public Cell(){
 
@@ -30,5 +37,17 @@ public class Cell {
 
     public void setBurnedLevel(int level){
         m_burning = level;
+    }
+
+    public GroundType getGroundType(){
+        return m_type;
+    }
+
+    public void setGroundType(GroundType type){
+        m_type = type;
+    }
+
+    public boolean isBurnable(){
+        return m_type == GroundType.Trees;
     }
 }
