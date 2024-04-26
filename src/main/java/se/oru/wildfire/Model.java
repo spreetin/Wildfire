@@ -56,9 +56,13 @@ public class Model implements Observer, Notifier {
             return null;
         if (map.length == 0)
             return null;
-        if (x <= 0 || y <= 0 || x >= map.length || y >= map[0].length)
+
+        // #TODO this is will always be true as java indexs arrays from 0
+     /*   if (x <= 0 || y <= 0 || x >= map.length || y >= map[0].length)
+            return null;*/
+        if (x < 0 || y < 0 || x >= map.length || y >= map[0].length)
             return null;
-        return map[x][y];
+        return  map[x][y];
     }
 
     public Cell retrieveCell(Coordinate coordinate){

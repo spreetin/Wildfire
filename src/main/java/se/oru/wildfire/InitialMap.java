@@ -11,14 +11,24 @@ public class InitialMap {
         map = mapData;
     }
 
+    /**
+     * Inputs Type Model
+     * @return Type Coordinate
+     */
     public Coordinate getSize(){
-        // TODO: Implement
-        return null;
+        int x = this.map.length;
+        int y = this.map[0].length;
+        Coordinate size = new Coordinate(x, y);
+        return size;
     }
 
+    /**
+     * @param x
+     * @param y
+     * @return Type Cell
+     */
     public Cell getCell(int x, int y){
-        // TODO: Implement
-        return null;
+        return map[x][y];
     }
 
     public Cell getCell(Coordinate coordinate){
