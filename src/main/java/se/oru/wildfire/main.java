@@ -12,10 +12,6 @@ public class main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Stage newWindow = new Stage();
-        newWindow.setTitle("New Scene");
-        HBox horizontalSplit = new HBox();
-        newWindow.setScene(new Scene(horizontalSplit));
-        newWindow.show();
+        MainWindow mw = new MainWindow();
     }
 }
