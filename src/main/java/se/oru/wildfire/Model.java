@@ -8,6 +8,7 @@ public class Model implements Observer, Notifier {
     List<Observer> listeners = new ArrayList<>();
     Cell[][] map;
     List<Coordinate> updatedCells = new ArrayList<>();
+    Cell.GroundType drawType = Cell.GroundType.None;
 
     public void setGridSize(int x, int y){
         map = new Cell[x][y];
@@ -76,5 +77,36 @@ public class Model implements Observer, Notifier {
             map[coordinate.x()][coordinate.y()] = o.retrieveCell(coordinate.x(), coordinate.y());
         }
         hasUpdate();
+    }
+
+    // Set type of ground to draw when selected
+    public void drawType(Cell.GroundType type){
+        drawType = type;
+    }
+
+    // Draw in a specific cell
+    public void draw(int x, int y){
+        Coordinate coordinate = new Coordinate(x, y);
+        updateCell(coordinate);
+        updatedCells.clear();
+        updatedCells.add(coordinate);
+        hasUpdate();
+    }
+
+    // Draw in a collection of cells
+    public void drawMany(Coordinate[] coordinates){
+        for (Coordinate coordinate : coordinates){
+            updateCell(coordinate);
+        }
+        updatedCells.clear();
+        updatedCells.addAll(List.of(coordinates));
+        hasUpdate();
+    }
+
+    // Helper function to create the correct new Cell when drawing
+    private void updateCell(Coordinate coordinate){
+        Cell cell = new Cell(0);
+        cell.setGroundType(drawType);
+        map[coordinate.x()][coordinate.y()] = cell;
     }
 }
