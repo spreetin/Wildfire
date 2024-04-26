@@ -11,4 +11,5 @@ public class View extends GridPane implements Observer {
         Coordinate[] updatedCells = o.updatedCells();
         // TODO: Implement
     }
+
 }

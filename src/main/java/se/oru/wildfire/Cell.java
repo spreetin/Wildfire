@@ -2,7 +2,8 @@ package se.oru.wildfire;
 
 public class Cell {
 
-    enum GroundType {
+    public enum GroundType {
+        None,
         Trees,
         Water,
         Stone
