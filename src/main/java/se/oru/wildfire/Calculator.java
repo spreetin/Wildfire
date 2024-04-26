@@ -114,19 +114,39 @@ public class Calculator implements Observer, Notifier{
     @Override
     public void newUpdate(Notifier o) {
         // Cast o to Model class
-        if (!(o instanceof Model model))
-            return;
-        if (frontier.isEmpty()){
-            setBaseState(model);
-        } else {
-            Coordinate[] modelUpdatedCells = model.updatedCells();
-            for (Coordinate coordinate : modelUpdatedCells){
-                if (!updatedCells.containsKey(coordinate)){
-                    setBaseState(model);
-                    return;
+        frontier.clear();
+        Coordinate[] coordinates = o.updatedCells();
+
+        for (Coordinate coordinate : coordinates){
+            // Get the values around the target cell and if they exist and are not burtout they get added to the frontier
+            Coordinate north = new Coordinate(coordinate.x(), coordinate.y()+1);
+            Coordinate south = new Coordinate(coordinate.x(), coordinate.y()-1);
+            Coordinate west = new Coordinate(coordinate.x()+1, coordinate.y());
+            Coordinate east = new Coordinate(coordinate.x()-1, coordinate.y());
+            // This should probly be a for loop but it works fine as is and is not likely to need an update
+            if(o.retrieveCell(north) != null){
+                if(!o.retrieveCell(north).burnedOut()) {
+                    frontier.put(north, o.retrieveCell(north));}
+            }
+            if(o.retrieveCell(south) != null) {
+                if (!o.retrieveCell(south).burnedOut()) {
+                    frontier.put(south, o.retrieveCell(south));
                 }
             }
+            if(o.retrieveCell(west) != null){
+                if(!o.retrieveCell(west).burnedOut()) {
+                    frontier.put(west, o.retrieveCell(west));}
+            }
+
+
+            if(o.retrieveCell(east) != null){
+                if(!o.retrieveCell(east).burnedOut()) {
+                    frontier.put(east, o.retrieveCell(east));}
+            }
+
         }
+
+
 
     }
 }
