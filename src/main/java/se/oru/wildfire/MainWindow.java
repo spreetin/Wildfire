@@ -1,14 +1,14 @@
 package se.oru.wildfire;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -46,6 +46,8 @@ public class MainWindow {
         // Aggregate painters
         HBox painterGroup = new HBox(treeButton, waterButton, stoneButton);
         painterGroup.setAlignment(Pos.CENTER);
+        painterGroup.setMaxHeight(Double.MAX_VALUE);
+        painterGroup.setPadding(new Insets(40, 0, 0, 0));
 
         // Animation controls
         Button playButton = new Button("Play");
@@ -55,13 +57,20 @@ public class MainWindow {
 
         // Animation slider
         Slider animationSlider = new Slider();
+        animationSlider.setMinWidth(230);
+        animationSlider.setPadding(new Insets(0, 0, 40, 0));
 
         // Controls to the right
-        VBox rightPane = new VBox(painterGroup, animationControlButtons, animationSlider);
-        rightPane.setMaxHeight(Double.MAX_VALUE);
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        VBox rightPane = new VBox(painterGroup, spacer, animationControlButtons, animationSlider);
+
 
         // Main layout
-        HBox horizontalSplit = new HBox(view, rightPane);
+        HBox.setHgrow(view, Priority.ALWAYS);
+        Separator hSeparator = new Separator();
+        hSeparator.setOrientation(Orientation.VERTICAL);
+        HBox horizontalSplit = new HBox(view, hSeparator, rightPane);
         newWindow.setScene(new Scene(horizontalSplit));
         newWindow.setMinHeight(700);
         newWindow.setMinWidth(1000);
