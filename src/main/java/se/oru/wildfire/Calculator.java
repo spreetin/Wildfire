@@ -52,19 +52,36 @@ public class Calculator implements Observer, Notifier{
 
     public void needUpdate(){
         updatedCells.clear();
-        for (Coordinate coord : frontier.keySet()){
+        for (Coordinate coord : (frontier.keySet())){
             Cell cell = frontier.get(coord);
-            boolean updated = false;
+            // If the cell we are currently inspecting can't affect other cells continue to the next intreration
+            if (!cell.isBurning()){
+                continue;
+            }
+            // if the cell is burnt out remove it from the frontier as it cant be updated
+            if (cell.burnedOut()){
+                frontier.remove(coord);
+                continue;
+            }
             // Calculate any update, the boolean represents it being updated
-            if (updated){
-                updatedCells.put(coord, cell);
-                // Add any cell that is !burnedOut and is a neighbour to the frontier
-            } else {
-                if (cell.burnedOut()){
-                    frontier.remove(coord);
+            for (Coordinate near : (frontier.keySet())){
+                // check all the values in the frontier and check if they are next to the current cell
+                if(Math.abs(coord.x()-near.x())<=1 && (Math.abs(coord.y()-near.y())<=1) && (coord.x() != near.x() || coord.y() != near.y())){
+                    // if we find a cell we want to update put that cell into updatedCells and update it
+                    Cell nearCell = frontier.get(near);
+                    if(!nearCell.burnedOut()){
+                        Cell copy = new Cell(nearCell.burnedLevel());
+                        updatedCells.put(near,copy);
+                        // TODO Update this with a proper algorithm
+                        copy.setBurnedLevel(nearCell.burnedLevel() + cell.burnedLevel());
+                    }
                 }
+
+
+                // Add any cell that is !burnedOut and is a neighbour to the frontier
             }
         }
+        frontier = updatedCells;
         hasUpdate();
     }
 
