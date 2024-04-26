@@ -33,30 +33,40 @@ public class View extends GridPane implements Observer {
         cells = new Rectangle[size.x()][size.y()];
         for (int i = 0; i < size.x(); i++) {
             for (int j = 0; j < size.y(); j++) {
-                Rectangle rect = new Rectangle(10, 10);
+                cells[i][j] = new Rectangle(10, 10);
+                cells[i][j].setStroke(Color.BLACK);
                 Cell cell = initialMap.getCell(i, j);
-                Coordinate coordinate = new Coordinate(i,j);
-                drawCell(cell, coordinate);
-                rect.setStroke(Color.BLACK);
+                drawCell(cell, new Coordinate(i, j));
                 int finalI = i;
                 int finalJ = j;
-                rect.setOnMouseClicked(_ -> handleCellClick(finalI, finalJ));
-                this.add(rect, j, i);
-                cells[i][j] = rect;
+                cells[i][j].setOnMouseClicked(_ -> handleCellClick(finalI, finalJ));
+                this.add(cells[i][j], i, j);
             }
         }
     }
 
     public void drawCell(Cell cell, Coordinate coordinates){
-        if(cell.isBurning()){
-            cells[coordinates.x()][coordinates.y()].setFill(Color.DARKORANGE);
-        } else {
-            if (cell.getGroundType() == Cell.GroundType.Trees) {
-                cells[coordinates.x()][coordinates.y()].setFill(Color.DARKGREEN);
-            } else if (cell.getGroundType() == Cell.GroundType.Water) {
-                cells[coordinates.x()][coordinates.y()].setFill(Color.DARKBLUE);
-            } else if (cell.getGroundType() == Cell.GroundType.Stone) {
-                cells[coordinates.x()][coordinates.y()].setFill(Color.DARKGREY);
+        Rectangle rect = cells[coordinates.x()][coordinates.y()];
+        if(rect != null){
+            if(cell.isBurning()){
+                rect.setFill(Color.DARKORANGE);
+            } else {
+                switch (cell.getGroundType()){
+                    case None:
+                        rect.setFill(Color.WHITE);
+                        break;
+                    case Trees:
+                        rect.setFill(Color.DARKGREEN);
+                        break;
+                    case Stone:
+                        rect.setFill(Color.DARKGREY);
+                        break;
+                    case Water:
+                        rect.setFill(Color.DARKBLUE);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

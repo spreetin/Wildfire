@@ -21,7 +21,7 @@ public class ViewTest {
                 cells[i][j].setGroundType(Cell.GroundType.Trees); //set all cells to groundtype trees.
             }
         }
-        cells[2][2].setGroundType(Cell.GroundType.Stone); // set 1 cell to goruntype Stone.
+        cells[2][2].setGroundType(Cell.GroundType.Stone); // set 1 cell to groundtype Stone.
         initialMap = new InitialMap(cells);
     }
 
