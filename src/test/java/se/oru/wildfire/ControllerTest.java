@@ -13,7 +13,7 @@ public class ControllerTest {
 
     @BeforeAll
     static void setUp(){
-        controller = new Controller();
+        controller = new Controller(new View());
     }
 
     @Test
