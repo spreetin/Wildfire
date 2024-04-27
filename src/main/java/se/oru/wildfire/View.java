@@ -9,9 +9,16 @@ import java.util.Objects;
 
 public class View extends GridPane implements Observer {
     private Rectangle[][] cells;
-
+    private Cell.GroundType paintType;
     public Rectangle[][] getCells(){
         return cells;
+    }
+
+    void setPaintType(Cell.GroundType color){
+        paintType = color;
+    }
+    Cell.GroundType getPaintType(){
+        return paintType;
     }
 
     @Override
@@ -77,5 +84,10 @@ public class View extends GridPane implements Observer {
         // needs to get color from paint class
         Color newColor = currentColor.equals(Color.WHITE) ? Color.DARKGREEN : Color.WHITE;
         rect.setFill(newColor);
+    }
+
+    InitialMap returnPaintedMap(){
+        // TODO: Implement
+        return null;
     }
 }
