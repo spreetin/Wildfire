@@ -29,7 +29,7 @@ public class View extends GridPane implements Observer {
     }
 
     public void redrawMap(){
-
+        // TODO: Implement
     }
 
     public void setInitialMap(InitialMap initialMap){
@@ -55,21 +55,13 @@ public class View extends GridPane implements Observer {
             if(cell.isBurning()){
                 rect.setFill(Color.DARKORANGE);
             } else {
-                switch (cell.getGroundType()){
-                    case None:
-                        rect.setFill(Color.WHITE);
-                        break;
-                    case Trees:
-                        rect.setFill(Color.DARKGREEN);
-                        break;
-                    case Stone:
-                        rect.setFill(Color.DARKGREY);
-                        break;
-                    case Water:
-                        rect.setFill(Color.DARKBLUE);
-                        break;
-                    default:
-                        break;
+                switch (cell.getGroundType()) {
+                    case None -> rect.setFill(Color.WHITE);
+                    case Trees -> rect.setFill(Color.DARKGREEN);
+                    case Stone -> rect.setFill(Color.DARKGREY);
+                    case Water -> rect.setFill(Color.DARKBLUE);
+                    default -> {
+                    }
                 }
             }
         }

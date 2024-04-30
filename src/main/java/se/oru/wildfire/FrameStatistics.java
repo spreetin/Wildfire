@@ -6,7 +6,7 @@ import java.util.Map;
 public class FrameStatistics implements Observer {
 
     int currentTick = 0;
-    Map<Integer, Map<Coordinate, Cell>> ticks = new HashMap<>();
+    final Map<Integer, Map<Coordinate, Cell>> ticks = new HashMap<>();
     Cell[][] startingMap;
 
     public boolean hasTick(int tick){

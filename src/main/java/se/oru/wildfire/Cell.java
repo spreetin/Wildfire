@@ -7,7 +7,7 @@ public class Cell {
         Trees,
         Water,
         Stone
-    };
+    }
 
     private int m_burning = 0;
     private GroundType m_type = GroundType.Trees;

@@ -8,10 +8,10 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
-    View view;
-    Controller controller;
-    PaintManager paintManager = new PaintManager();
-    SimulationController simulationController = new SimulationController();
+    final View view;
+    final Controller controller;
+    final PaintManager paintManager = new PaintManager();
+    final SimulationController simulationController = new SimulationController();
 
     public MainWindow(){
         Stage newWindow = new Stage();

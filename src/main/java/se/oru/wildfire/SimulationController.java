@@ -30,8 +30,7 @@ public class SimulationController {
         playButton.setOnAction(event -> run());
         pauseButton.setOnAction(event -> pause());
 
-        VBox container = new VBox(animationControlButtons, animationSlider);
-        return container;
+        return new VBox(animationControlButtons, animationSlider);
     }
 
     public void run(){
