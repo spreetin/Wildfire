@@ -66,10 +66,6 @@ public class Model implements Observer, Notifier {
         return  map[x][y];
     }
 
-    public Cell retrieveCell(Coordinate coordinate){
-        return retrieveCell(coordinate.x(), coordinate.y());
-    }
-
     @Override
     public void newUpdate(Notifier o) {
         updatedCells = List.of(o.updatedCells());

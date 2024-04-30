@@ -46,7 +46,7 @@ public class View extends GridPane implements Observer {
                 drawCell(cell, new Coordinate(i, j));
                 int finalI = i;
                 int finalJ = j;
-                cells[i][j].setOnMouseClicked(_ -> handleCellClick(finalI, finalJ));
+                cells[i][j].setOnMouseClicked(ignore -> handleCellClick(finalI, finalJ));
                 this.add(cells[i][j], i, j);
             }
         }

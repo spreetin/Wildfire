@@ -23,11 +23,6 @@ public class NotifierTestClass implements Notifier{
     }
 
     @Override
-    public Cell retrieveCell(Coordinate coordinate) {
-        return retrieveCell(coordinate.x(), coordinate.y());
-    }
-
-    @Override
     public boolean isDifferent(int x, int y) {
         return map.containsKey(new Coordinate(x, y));
     }
