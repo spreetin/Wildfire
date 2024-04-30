@@ -1,9 +1,6 @@
 package se.oru.wildfire;
 
 import org.junit.jupiter.api.*;
-
-import java.awt.event.ActionEvent;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

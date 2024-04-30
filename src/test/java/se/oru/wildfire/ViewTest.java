@@ -2,9 +2,6 @@ package se.oru.wildfire;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

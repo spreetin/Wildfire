@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Model implements Observer, Notifier {
 
-    List<Observer> listeners = new ArrayList<>();
+    final List<Observer> listeners = new ArrayList<>();
     Cell[][] map;
     List<Coordinate> updatedCells = new ArrayList<>();
     Cell.GroundType drawType = Cell.GroundType.None;

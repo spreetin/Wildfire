@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Calculator implements Observer, Notifier{
 
-    List<Observer> listeners;
-    Map<Coordinate, Cell> frontier;
-    Map<Coordinate, Cell> updatedCells;
+    final List<Observer> listeners;
+    final Map<Coordinate, Cell> frontier;
+    final Map<Coordinate, Cell> updatedCells;
 
     public Calculator(){
         listeners = new ArrayList<>();
