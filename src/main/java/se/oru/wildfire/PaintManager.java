@@ -3,10 +3,7 @@ package se.oru.wildfire;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class PaintManager {
@@ -15,17 +12,17 @@ public class PaintManager {
         // Painters
         // Trees
         Button treeButton = new Button("Trees");
-        treeButton.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, null, null)));
+        treeButton.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, new CornerRadii(3), new Insets(2))));
         treeButton.setTextFill(Color.WHITE);
 
         // Water
         Button waterButton = new Button("Water");
-        waterButton.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, null, null)));
+        waterButton.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(3), new Insets(2))));
         waterButton.setTextFill(Color.WHITE);
 
         // Stone
         Button stoneButton = new Button("Stone");
-        stoneButton.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
+        stoneButton.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, new CornerRadii(3), new Insets(2))));
         stoneButton.setTextFill(Color.WHITE);
 
         // Aggregate painters
