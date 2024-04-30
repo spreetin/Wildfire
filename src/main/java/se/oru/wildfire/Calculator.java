@@ -98,11 +98,6 @@ public class Calculator implements Observer, Notifier{
         return null;
     }
 
-    @Override
-    public Cell retrieveCell(Coordinate coordinate){
-        return retrieveCell(coordinate.x(), coordinate.y());
-    }
-
     public boolean isDifferent(int x, int y){
         return updatedCells.containsKey(new Coordinate(x, y));
     }
