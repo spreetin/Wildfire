@@ -1,9 +1,6 @@
 package se.oru.wildfire;
 
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
 
 public class Calculator implements Observer, Notifier{
 

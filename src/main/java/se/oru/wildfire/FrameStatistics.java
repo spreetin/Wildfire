@@ -1,8 +1,5 @@
 package se.oru.wildfire;
 
-import se.oru.wildfire.Cell;
-import se.oru.wildfire.Coordinate;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -10,17 +10,25 @@ import javafx.scene.layout.VBox;
 
 public class SimulationController {
 
+    private Button playButton;
+    private Button pauseButton;
+    private Slider animationSlider;
+
     Pane createLayout(){
         // Animation controls
-        Button playButton = new Button("Play");
-        Button pauseButton = new Button("Pause");
+        playButton = new Button("Play");
+        pauseButton = new Button("Pause");
         HBox animationControlButtons = new HBox(playButton, pauseButton);
         animationControlButtons.setAlignment(Pos.CENTER);
 
         // Animation slider
-        Slider animationSlider = new Slider();
+        animationSlider = new Slider();
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
+
+        // Event handlers
+        playButton.setOnAction(event -> run());
+        pauseButton.setOnAction(event -> pause());
 
         VBox container = new VBox(animationControlButtons, animationSlider);
         return container;
@@ -32,6 +40,11 @@ public class SimulationController {
 
     public void pause(){
         // TODO: Implement
+    }
+
+    public void addTick(){
+        animationSlider.setMax(animationSlider.getValue()+1);
+        animationSlider.setValue(animationSlider.getMax());
     }
 
     public void setWindSpeed(float value){

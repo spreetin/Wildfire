@@ -4,9 +4,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.awt.*;
-import java.util.Objects;
-
 public class View extends GridPane implements Observer {
     private Rectangle[][] cells;
     private Cell.GroundType paintType;

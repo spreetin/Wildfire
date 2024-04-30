@@ -1,18 +1,10 @@
 package se.oru.wildfire;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Separator;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 public class MainWindow {
 

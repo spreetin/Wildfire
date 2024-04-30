@@ -1,7 +1,5 @@
 package se.oru.wildfire;
 
-import se.oru.wildfire.Calculator;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
