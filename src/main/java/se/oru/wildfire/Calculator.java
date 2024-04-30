@@ -1,6 +1,5 @@
 package se.oru.wildfire;
 
-import javax.lang.model.type.NullType;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.DoublePredicate;

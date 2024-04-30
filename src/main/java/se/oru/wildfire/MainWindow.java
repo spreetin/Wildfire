@@ -18,6 +18,8 @@ public class MainWindow {
 
     View view;
     Controller controller;
+    PaintManager paintManager = new PaintManager();
+    SimulationController simulationController = new SimulationController();
 
     public MainWindow(){
         Stage newWindow = new Stage();
@@ -28,44 +30,12 @@ public class MainWindow {
         view.setMaxWidth(Double.MAX_VALUE);
         view.setMaxHeight(Double.MAX_VALUE);
 
-        // Painters
-        // Trees
-        Button treeButton = new Button("Trees");
-        treeButton.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, null, null)));
-        treeButton.setTextFill(Color.WHITE);
-
-        // Water
-        Button waterButton = new Button("Water");
-        waterButton.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, null, null)));
-        waterButton.setTextFill(Color.WHITE);
-
-        // Stone
-        Button stoneButton = new Button("Stone");
-        stoneButton.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-        stoneButton.setTextFill(Color.WHITE);
-
-        // Aggregate painters
-        HBox painterGroup = new HBox(treeButton, waterButton, stoneButton);
-        painterGroup.setAlignment(Pos.CENTER);
-        painterGroup.setMaxHeight(Double.MAX_VALUE);
-        painterGroup.setPadding(new Insets(40, 0, 0, 0));
-
-        // Animation controls
-        Button playButton = new Button("Play");
-        Button pauseButton = new Button("Pause");
-        HBox animationControlButtons = new HBox(playButton, pauseButton);
-        animationControlButtons.setAlignment(Pos.CENTER);
-
-        // Animation slider
-        Slider animationSlider = new Slider();
-        animationSlider.setMinWidth(230);
-        animationSlider.setPadding(new Insets(0, 0, 40, 0));
-
-        // Controls to the right
+        // Set up controls elements
+        Pane painterGroup = paintManager.createLayout();
+        Pane simulationGroup = simulationController.createLayout();
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
-        VBox rightPane = new VBox(painterGroup, spacer, animationControlButtons, animationSlider);
-
+        VBox rightPane = new VBox(painterGroup, spacer, simulationGroup);
 
         // Main layout
         HBox.setHgrow(view, Priority.ALWAYS);
