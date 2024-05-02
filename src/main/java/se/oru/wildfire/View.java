@@ -4,14 +4,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.awt.*;
-import java.util.Objects;
-
 public class View extends GridPane implements Observer {
     private Rectangle[][] cells;
-
+    private Cell.GroundType paintType;
     public Rectangle[][] getCells(){
         return cells;
+    }
+
+    void setPaintType(Cell.GroundType color){
+        paintType = color;
+    }
+    Cell.GroundType getPaintType(){
+        return paintType;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class View extends GridPane implements Observer {
     }
 
     public void redrawMap(){
-
+        // TODO: Implement
     }
 
     public void setInitialMap(InitialMap initialMap){
@@ -39,7 +43,7 @@ public class View extends GridPane implements Observer {
                 drawCell(cell, new Coordinate(i, j));
                 int finalI = i;
                 int finalJ = j;
-                cells[i][j].setOnMouseClicked(_ -> handleCellClick(finalI, finalJ));
+                cells[i][j].setOnMouseClicked(ignore -> handleCellClick(finalI, finalJ));
                 this.add(cells[i][j], i, j);
             }
         }
@@ -51,21 +55,13 @@ public class View extends GridPane implements Observer {
             if(cell.isBurning()){
                 rect.setFill(Color.DARKORANGE);
             } else {
-                switch (cell.getGroundType()){
-                    case None:
-                        rect.setFill(Color.WHITE);
-                        break;
-                    case Trees:
-                        rect.setFill(Color.DARKGREEN);
-                        break;
-                    case Stone:
-                        rect.setFill(Color.DARKGREY);
-                        break;
-                    case Water:
-                        rect.setFill(Color.DARKBLUE);
-                        break;
-                    default:
-                        break;
+                switch (cell.getGroundType()) {
+                    case None -> rect.setFill(Color.WHITE);
+                    case Trees -> rect.setFill(Color.DARKGREEN);
+                    case Stone -> rect.setFill(Color.DARKGREY);
+                    case Water -> rect.setFill(Color.DARKBLUE);
+                    default -> {
+                    }
                 }
             }
         }
@@ -77,5 +73,10 @@ public class View extends GridPane implements Observer {
         // needs to get color from paint class
         Color newColor = currentColor.equals(Color.WHITE) ? Color.DARKGREEN : Color.WHITE;
         rect.setFill(newColor);
+    }
+
+    InitialMap returnPaintedMap(){
+        // TODO: Implement
+        return null;
     }
 }

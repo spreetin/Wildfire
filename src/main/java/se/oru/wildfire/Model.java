@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Model implements Observer, Notifier {
 
-    List<Observer> listeners = new ArrayList<>();
+    final List<Observer> listeners = new ArrayList<>();
     Cell[][] map;
     List<Coordinate> updatedCells = new ArrayList<>();
     Cell.GroundType drawType = Cell.GroundType.None;
@@ -64,10 +64,6 @@ public class Model implements Observer, Notifier {
         if (x < 0 || y < 0 || x >= map.length || y >= map[0].length)
             return null;
         return  map[x][y];
-    }
-
-    public Cell retrieveCell(Coordinate coordinate){
-        return retrieveCell(coordinate.x(), coordinate.y());
     }
 
     @Override

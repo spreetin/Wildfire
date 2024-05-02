@@ -1,15 +1,12 @@
 package se.oru.wildfire;
 
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
 
 public class Calculator implements Observer, Notifier{
 
-    List<Observer> listeners;
-    Map<Coordinate, Cell> frontier;
-    Map<Coordinate, Cell> updatedCells;
+    final List<Observer> listeners;
+    final Map<Coordinate, Cell> frontier;
+    final Map<Coordinate, Cell> updatedCells;
 
     public Calculator(){
         listeners = new ArrayList<>();
@@ -69,7 +66,10 @@ public class Calculator implements Observer, Notifier{
                 if(Math.abs(coord.x()-near.x())<=1 && (Math.abs(coord.y()-near.y())<=1) && (coord.x() != near.x() || coord.y() != near.y())){
                     // if we find a cell we want to update put that cell into updatedCells and update it
                     Cell nearCell = frontier.get(near);
+
+
                     if(!nearCell.burnedOut()){
+
                         Cell copy = new Cell(nearCell.burnedLevel());
                         updatedCells.put(near,copy);
                         // TODO Update this with a proper algorithm
@@ -77,11 +77,10 @@ public class Calculator implements Observer, Notifier{
                     }
                 }
 
-
-                // Add any cell that is !burnedOut and is a neighbour to the frontier
             }
+
         }
-        frontier = updatedCells;
+
         hasUpdate();
     }
 
@@ -96,11 +95,6 @@ public class Calculator implements Observer, Notifier{
             return updatedCells.get(new Coordinate(x, y));
         }
         return null;
-    }
-
-    @Override
-    public Cell retrieveCell(Coordinate coordinate){
-        return retrieveCell(coordinate.x(), coordinate.y());
     }
 
     public boolean isDifferent(int x, int y){
@@ -133,5 +127,6 @@ public class Calculator implements Observer, Notifier{
                 }
             }
         }
+
     }
 }

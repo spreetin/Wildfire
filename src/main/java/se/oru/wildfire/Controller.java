@@ -1,7 +1,5 @@
 package se.oru.wildfire;
 
-import se.oru.wildfire.Calculator;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +11,7 @@ public class Controller implements ActionListener {
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
 
-    Timer timer = new Timer(1000, this);
+    final Timer timer = new Timer(1000, this);
 
     public Controller(View view){
         this.view = view;
