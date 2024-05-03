@@ -1,6 +1,7 @@
 package se.oru.wildfire;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ public class ViewTest {
 
     @Test
     public void setInitialMap() {
-        View view = new View();
+        View view = new View(new PaintManager());
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -33,7 +34,7 @@ public class ViewTest {
 
     @Test
     void newUpdate() {
-        View view = new View();
+        View view = new View(new PaintManager());
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -56,7 +57,7 @@ public class ViewTest {
 
     @Test
     void drawCell(){
-        View view = new View();
+        View view = new View(new PaintManager());
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -71,6 +72,11 @@ public class ViewTest {
         cell.setGroundType(Cell.GroundType.Water);
         view.drawCell(cell, new Coordinate(2, 2));
         assertEquals(Color.DARKBLUE, view.getCells()[2][2].getFill());
+
+        Cell cell_burned = new Cell();
+        cell_burned.setBurnedLevel(100);
+        view.drawCell(cell_burned, new Coordinate(1,1));
+        assertEquals(Color.BLACK, view.getCells()[2][2].getFill());
     }
 
     @Test
