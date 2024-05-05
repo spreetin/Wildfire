@@ -25,7 +25,7 @@ public class Cell {
     }
 
     public boolean isBurning(){
-        return m_burning != 0;
+        return m_burning != 0 && m_burning < 100;
     }
 
     public int burnedLevel(){
