@@ -28,6 +28,7 @@ public class Controller implements ActionListener {
         }
         InitialMap initialMap = new InitialMap(cells);
         view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
     }
 
     public void setTickSpeed(int msecs){
