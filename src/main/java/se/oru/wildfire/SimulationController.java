@@ -10,14 +10,12 @@ import javafx.scene.layout.VBox;
 
 public class SimulationController {
 
-    private Button playButton;
-    private Button pauseButton;
     private Slider animationSlider;
 
-    Pane createLayout(){
+    Pane createLayout(Controller controller){
         // Animation controls
-        playButton = new Button("Play");
-        pauseButton = new Button("Pause");
+        Button playButton = new Button("Play");
+        Button pauseButton = new Button("Pause");
         HBox animationControlButtons = new HBox(playButton, pauseButton);
         animationControlButtons.setAlignment(Pos.CENTER);
 
@@ -27,18 +25,10 @@ public class SimulationController {
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
 
         // Event handlers
-        playButton.setOnAction(event -> run());
-        pauseButton.setOnAction(event -> pause());
+        playButton.setOnAction(actionEvent -> controller.startTimer());
+        pauseButton.setOnAction(actionEvent -> controller.pauseTimer());
 
         return new VBox(animationControlButtons, animationSlider);
-    }
-
-    public void run(){
-        // TODO: Implement
-    }
-
-    public void pause(){
-        // TODO: Implement
     }
 
     public void addTick(){
