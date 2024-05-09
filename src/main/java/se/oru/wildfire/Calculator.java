@@ -7,7 +7,6 @@ public class Calculator implements Observer, Notifier{
     final List<Observer> listeners;
     final Map<Coordinate, Cell> frontier;
     final Map<Coordinate, Cell> updatedCells;
-
     public Calculator(){
         listeners = new ArrayList<>();
         frontier = new HashMap<>();
@@ -21,9 +20,12 @@ public class Calculator implements Observer, Notifier{
     public void setBaseState(Model model){
         Coordinate size = model.getGridSize();
         frontier.clear();
+
         for (int i=0;i<size.x();i++){
             for (int j=0;j<size.y();j++){
+
                 if (model.retrieveCell(i, j).isBurning()){
+                    // This part is for updating the frontier
                     if (!frontier.containsKey(new Coordinate(i, j))){
                         frontier.put(new Coordinate(i, j), model.retrieveCell(i, j));
                     }
@@ -42,6 +44,16 @@ public class Calculator implements Observer, Notifier{
                             frontier.put(new Coordinate(i, j+1), model.retrieveCell(i, j+1));
                         }
                     }
+                    if (i != 0){
+                        if (!frontier.containsKey(new Coordinate(i-1, j))){
+                            frontier.put(new Coordinate(i-1, j), model.retrieveCell(i-1, j));
+                        }
+                    }
+                    if (j != 0){
+                        if (!frontier.containsKey(new Coordinate(i, j-1))){
+                            frontier.put(new Coordinate(i, j-1), model.retrieveCell(i, j-1));
+                        }
+                    }
                 }
             }
         }
@@ -52,6 +64,7 @@ public class Calculator implements Observer, Notifier{
         for (Coordinate coord : (frontier.keySet())){
             Cell cell = frontier.get(coord);
             // If the cell we are currently inspecting can't affect other cells continue to the next intreration
+
             if (!cell.isBurning()){
                 continue;
             }
