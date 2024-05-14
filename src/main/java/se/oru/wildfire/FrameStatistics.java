@@ -61,4 +61,8 @@ public class FrameStatistics implements Observer {
         }
         ticks.put(currentTick, updatesInTick);
     }
+
+    public int getCurrentTick(){
+        return currentTick;
+    }
 }

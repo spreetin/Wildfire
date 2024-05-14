@@ -33,4 +33,8 @@ public class InitialMap {
     public Cell getCell(Coordinate coordinate){
         return getCell(coordinate.x(), coordinate.y());
     }
+
+    public Cell[][] getMap(){
+        return map;
+    }
 }

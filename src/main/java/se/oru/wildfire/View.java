@@ -3,6 +3,7 @@ package se.oru.wildfire;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 
@@ -132,7 +133,27 @@ public class View extends GridPane implements Observer {
     }
 
     InitialMap returnPaintedMap(){
-        // TODO: Implement
-        return null;
+        Cell[][] mapData = new Cell[cells.length][cells[0].length];
+        for (int i=0; i<cells.length; i++){
+            for (int j=0; j<cells[0].length; j++){
+                Paint fill = cells[i][j].getFill();
+                if (fill instanceof Color c){
+                    if (c == Color.DARKGREEN){
+                        mapData[i][j] = new Cell(Cell.GroundType.Trees);
+                    } else if (c == Color.DARKBLUE){
+                        mapData[i][j] = new Cell(Cell.GroundType.Water);
+                    } else if (c == Color.DIMGREY){
+                        mapData[i][j] = new Cell(Cell.GroundType.Stone);
+                    } else if (c == Color.BLACK){
+                        mapData[i][j] = new Cell(100);
+                    } else if (c == Color.RED){
+                        mapData[i][j] = new Cell(10);
+                    }
+                } else {
+                    mapData[i][j] = new Cell();
+                }
+            }
+        }
+        return new InitialMap(mapData);
     }
 }
