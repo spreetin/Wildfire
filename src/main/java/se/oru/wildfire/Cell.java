@@ -25,6 +25,10 @@ public class Cell {
         m_burning = burningLevel;
     }
 
+    public Cell(GroundType ground){
+        m_type = ground;
+    }
+
     public void ignite(){
         m_burning += 10;
     }

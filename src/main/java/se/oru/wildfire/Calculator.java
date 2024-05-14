@@ -174,4 +174,25 @@ public class Calculator implements Observer, Notifier{
     void setHasWind(boolean wind){
         hasWind = wind;
     }
+
+    void setInitialMap(InitialMap map){
+        frontier.clear();
+        Coordinate size = map.getSize();
+        for (int i=0;i<size.x();i++){
+            for (int j=0;j<size.y();j++){
+                if (map.getCell(i, j).isBurning()){
+                    for (int k=i-1;k<=i+1;k++){
+                        if (map.getCell(k, j) != null && !frontier.containsKey(new Coordinate(k, j))){
+                            frontier.put(new Coordinate(k, j), map.getCell(k, j));
+                        }
+                    }
+                    for (int k=j-1;k<=j+1;k++){
+                        if (map.getCell(i, k) != null && !frontier.containsKey(new Coordinate(i, k))){
+                            frontier.put(new Coordinate(i, k), map.getCell(i, k));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
