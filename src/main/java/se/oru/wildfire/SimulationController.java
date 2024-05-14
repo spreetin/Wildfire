@@ -10,6 +10,18 @@ import javafx.scene.layout.VBox;
 
 public class SimulationController {
 
+    public enum WindDirection {
+        North,
+        NorthEast,
+        East,
+        SouthEast,
+        South,
+        SouthWest,
+        West,
+        NorthWest,
+        None
+    };
+
     private Slider animationSlider;
 
     Pane createLayout(Controller controller){
@@ -36,11 +48,11 @@ public class SimulationController {
         animationSlider.setValue(animationSlider.getMax());
     }
 
-    public void setWindSpeed(float value){
+    public void hasWind(boolean wind){
         // TODO: Implement
     }
 
-    public void setWindDirection(int angle){
+    public void setWindDirection(WindDirection direction){
         // TODO: Implement
     }
 }

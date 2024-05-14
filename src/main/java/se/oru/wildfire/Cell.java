@@ -16,8 +16,17 @@ public class Cell {
 
     }
 
+    public Cell(Cell other){
+        m_burning = other.m_burning;
+        m_type = other.m_type;
+    }
+
     public Cell(int burningLevel){
         m_burning = burningLevel;
+    }
+
+    public void ignite(){
+        m_burning += 10;
     }
 
     public boolean burnedOut(){
