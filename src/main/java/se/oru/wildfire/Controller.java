@@ -36,6 +36,12 @@ public class Controller implements ActionListener {
     }
 
     public void startTimer(){
+        if (frameStatistics.getCurrentTick() == 0){
+            InitialMap initialMap = view.returnPaintedMap();
+            model.setInitialMap(initialMap);
+            frameStatistics.setStartingMap(initialMap.getMap());
+            calculator.setInitialMap(initialMap);
+        }
         timer.start();
     }
 
