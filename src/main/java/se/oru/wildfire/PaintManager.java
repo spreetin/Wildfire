@@ -1,15 +1,11 @@
 package se.oru.wildfire;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 public class PaintManager {
     private ExtendedButton currentButton;
@@ -18,32 +14,33 @@ public class PaintManager {
         // Painters
         String css = this.getClass().getResource("/styles.css").toExternalForm();
         // Trees
-        ExtendedButton treeButton = new ExtendedButton("Trees");
-        treeButton.getStyleClass().add("button");
-        treeButton.getStyleClass().add("button-tree");
-        treeButton.setOnAction(actionEvent -> setColorType(Cell.GroundType.Trees, view));
+        ExtendedButton treeButton = new ExtendedButton("Trees", "tree");
+        treeButton.setOnAction(actionEvent -> setColorType("Trees", view));
         treeButton.setOnMousePressed(_ -> {
             treeButton.buttonActive(currentButton);
             currentButton = treeButton;
         });
 
         // Water
-        ExtendedButton waterButton = new ExtendedButton("Water");
-        waterButton.getStyleClass().add("button");
-        waterButton.getStyleClass().add("button-water");
-        waterButton.setOnAction(actionEvent -> setColorType(Cell.GroundType.Water, view));
+        ExtendedButton waterButton = new ExtendedButton("Water", "water");
+        waterButton.setOnAction(actionEvent -> setColorType("Water", view));
         waterButton.setOnMousePressed(_ -> {
             waterButton.buttonActive(currentButton);
             currentButton = waterButton;
         });
         // Stone
-        ExtendedButton stoneButton = new ExtendedButton("Stone");
-        stoneButton.getStyleClass().add("button");
-        stoneButton.getStyleClass().add("button-stone");
-        stoneButton.setOnAction(actionEvent -> setColorType(Cell.GroundType.Stone, view));
+        ExtendedButton stoneButton = new ExtendedButton("Stone", "stone");
+        stoneButton.setOnAction(actionEvent -> setColorType("Stone", view));
         stoneButton.setOnMousePressed(_ -> {
             stoneButton.buttonActive(currentButton);
             currentButton = stoneButton;
+        });
+
+        ExtendedButton fireButton = new ExtendedButton("Fire", "fire");
+        fireButton.setOnAction(actionEvent -> setColorType("Fire", view));
+        fireButton.setOnMousePressed(_ -> {
+            fireButton.buttonActive(currentButton);
+            currentButton = fireButton;
         });
 
         Label buttonLabel = new Label("Paint Control");
@@ -73,9 +70,12 @@ public class PaintManager {
         brushSliderWrapper.setSpacing(10);
 
         // Buttons Group
-        HBox buttonsGroup = new HBox(treeButton,waterButton,stoneButton);
+        HBox buttonsGroupTop = new HBox(treeButton,waterButton,stoneButton);
+        buttonsGroupTop.setAlignment(Pos.CENTER);
+        buttonsGroupTop.setSpacing(5);
+        VBox buttonsGroup = new VBox(buttonsGroupTop, fireButton);
         buttonsGroup.setAlignment(Pos.CENTER);
-        buttonsGroup.setSpacing(5);
+        buttonsGroup.setSpacing(10);
 
         // Buttons Wrapper
         VBox buttonsGroupWrapper = new VBox(buttonLabel,buttonsGroup);
@@ -94,11 +94,12 @@ public class PaintManager {
     }
 
 
-    private void setColorType(Cell.GroundType groundType, View view){
+    private void setColorType(String groundType, View view){
         switch(groundType){
-            case Trees -> view.setGroundType(Color.DARKGREEN);
-            case Stone -> view.setGroundType(Color.DIMGRAY);
-            case Water -> view.setGroundType(Color.DARKBLUE);
+            case "Trees" -> view.setGroundType(Color.DARKGREEN);
+            case "Stone" -> view.setGroundType(Color.DIMGRAY);
+            case "Water" -> view.setGroundType(Color.DARKBLUE);
+            case "Fire" -> view.setGroundType(Color.DARKORANGE);
             default -> {
             }
         }
