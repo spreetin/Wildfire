@@ -10,6 +10,7 @@ public class Controller implements ActionListener {
     final Model model = new Model();
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
+    final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
 
     final Timer timer = new Timer(500, this);
 
