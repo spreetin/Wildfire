@@ -75,6 +75,9 @@ public class Calculator implements Observer, Notifier{
         for (Coordinate coord : (frontier.keySet())){
             // Create a copy of the cell in the frontier
             Cell cell = new Cell(frontier.get(coord));
+            if (cell.getGroundType() != Cell.GroundType.Trees){
+                continue;
+            }
             boolean isAffected = false;
             if (cell.isBurning()){
                 cell.ignite();
