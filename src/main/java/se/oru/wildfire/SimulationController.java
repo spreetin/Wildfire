@@ -1,36 +1,80 @@
 package se.oru.wildfire;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class SimulationController {
 
-    private Button playButton;
-    private Button pauseButton;
     private Slider animationSlider;
+    private ExtendedButton currentButton;
 
     Pane createLayout(){
+        String css = this.getClass().getResource("/styles.css").toExternalForm();
         // Animation controls
-        playButton = new Button("Play");
-        pauseButton = new Button("Pause");
+        ExtendedButton playButton = new ExtendedButton("Play");
+        playButton.getStyleClass().add("button");
+        playButton.getStyleClass().add("button-play");
+        playButton.setOnMousePressed(_ -> {
+            playButton.buttonActive(currentButton);
+            currentButton = playButton;
+        });
+        playButton.setOnAction(event -> run());
+
+        ExtendedButton pauseButton = new ExtendedButton("Pause");
+        pauseButton.getStyleClass().add("button");
+        pauseButton.getStyleClass().add("button-stop");
+        pauseButton.setOnMousePressed(_ -> {
+            pauseButton.buttonActive(currentButton);
+            currentButton = pauseButton;
+        });
+        pauseButton.setOnAction(event -> pause());
+
+        ExtendedButton windEnabler = new ExtendedButton("Wind");
+        pauseButton.getStyleClass().add("button");
+        pauseButton.getStyleClass().add("button-stop");
+        pauseButton.setOnMousePressed(_ -> {
+            pauseButton.buttonActive(currentButton);
+            currentButton = pauseButton;
+        });
+        pauseButton.setOnAction(event -> windControl());
+
+        Label animationControlLabel = new Label("Simulation Controls");
+        animationControlLabel.getStyleClass().add("label");
+        animationControlLabel.setAlignment(Pos.CENTER);
+        animationControlLabel.setMaxWidth(Double.MAX_VALUE);
+
+        Label windControlLabel = new Label("Wind");
+        windControlLabel.getStyleClass().add("label");
+        windControlLabel.setAlignment(Pos.CENTER);
+        windControlLabel.setMaxWidth(Double.MAX_VALUE);
+
         HBox animationControlButtons = new HBox(playButton, pauseButton);
         animationControlButtons.setAlignment(Pos.CENTER);
+        animationControlButtons.setSpacing(10);
+
+        VBox layout = new VBox(windControlLabel, windEnabler, animationControlLabel, animationControlButtons);
+        layout.setAlignment(Pos.CENTER);
+        layout.setSpacing(10);
 
         // Animation slider
         animationSlider = new Slider();
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
 
-        // Event handlers
-        playButton.setOnAction(event -> run());
-        pauseButton.setOnAction(event -> pause());
+        VBox simulationGroup= new VBox(layout, animationSlider);
+        simulationGroup.getStylesheets().add(css);
+        simulationGroup.setSpacing(10);
 
-        return new VBox(animationControlButtons, animationSlider);
+        return simulationGroup;
     }
 
     public void run(){
@@ -53,4 +97,11 @@ public class SimulationController {
     public void setWindDirection(int angle){
         // TODO: Implement
     }
+
+    public void windControl(){
+
+    }
+
+
+
 }

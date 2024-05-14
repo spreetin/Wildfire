@@ -27,7 +27,6 @@ public class View extends GridPane implements Observer {
         for (int i = 0; i < size.x(); i++) {
             for (int j = 0; j < size.y(); j++) {
                 cells[i][j] = new Rectangle( (double) 800 / size.x(), (double) 700 / size.y());
-                cells[i][j].setStroke(Color.BLACK);
                 Cell cell = initialMap.getCell(i, j);
                 drawCell(cell, new Coordinate(i, j));
                 this.add(cells[i][j], i, j);
@@ -40,7 +39,7 @@ public class View extends GridPane implements Observer {
         Color color = null;
         Rectangle rect = cells[coordinates.x()][coordinates.y()];
         if(rect != null){
-            if(cell.isBurning()){
+            if(cell.isBurning() && cell.getGroundType() != Cell.GroundType.Stone && cell.getGroundType() != Cell.GroundType.Water){
                 color = Color.DARKORANGE;
             } else if (cell.burnedOut()) {
                 color = Color.BLACK;
@@ -48,7 +47,7 @@ public class View extends GridPane implements Observer {
                 switch (cell.getGroundType()) {
                     case None -> color = Color.WHITE;
                     case Trees -> color = Color.DARKGREEN;
-                    case Stone -> color = Color.DARKGREY;
+                    case Stone -> color = Color.DIMGRAY;
                     case Water -> color = Color.DARKBLUE;
                     default -> {
                     }
@@ -64,6 +63,10 @@ public class View extends GridPane implements Observer {
 
     public void setBrushSize(int newSize) {
         this.brushSize = newSize;
+    }
+
+    public int getBrushSize(){
+        return this.brushSize;
     }
 
     public void setGroundType(Color color){
@@ -127,8 +130,6 @@ public class View extends GridPane implements Observer {
     public void redrawMap(){
         // TODO: Implement
     }
-
-    // Dragging mouse cell click.
 
     InitialMap returnPaintedMap(){
         // TODO: Implement
