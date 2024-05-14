@@ -10,18 +10,6 @@ import javafx.scene.layout.VBox;
 
 public class SimulationController {
 
-    public enum WindDirection {
-        North,
-        NorthEast,
-        East,
-        SouthEast,
-        South,
-        SouthWest,
-        West,
-        NorthWest,
-        None
-    };
-
     private Slider animationSlider;
 
     Pane createLayout(Controller controller){
@@ -40,19 +28,14 @@ public class SimulationController {
         playButton.setOnAction(actionEvent -> controller.startTimer());
         pauseButton.setOnAction(actionEvent -> controller.pauseTimer());
 
+        // If we have wind -> controller.setWind(boolean)
+        // Wind direction -> controller.setWindDirection(Calculator.WindDirection)
+
         return new VBox(animationControlButtons, animationSlider);
     }
 
     public void addTick(){
         animationSlider.setMax(animationSlider.getValue()+1);
         animationSlider.setValue(animationSlider.getMax());
-    }
-
-    public void hasWind(boolean wind){
-        // TODO: Implement
-    }
-
-    public void setWindDirection(WindDirection direction){
-        // TODO: Implement
     }
 }

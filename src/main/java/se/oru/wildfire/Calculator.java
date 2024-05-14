@@ -4,9 +4,19 @@ import java.util.*;
 
 public class Calculator implements Observer, Notifier{
 
+    public enum WindDirection {
+        North,
+        East,
+        South,
+        West,
+        None
+    };
+
     final List<Observer> listeners;
     final Map<Coordinate, Cell> frontier;
     final Map<Coordinate, Cell> updatedCells;
+    WindDirection windDirection = WindDirection.None;
+    boolean hasWind = false;
     public Calculator(){
         listeners = new ArrayList<>();
         frontier = new HashMap<>();
@@ -69,13 +79,45 @@ public class Calculator implements Observer, Notifier{
             if (cell.isBurning()){
                 cell.ignite();
                 isAffected = true;
-            } else {
-                List<Cell> neighbours = getNeighbours(coord);
-                for (Cell neighbour : neighbours){
-                    if (neighbour != null && neighbour.isBurning()){
+            }
+            HashMap<Coordinate,Cell> neighbours = getNeighbours(coord);
+            for (Coordinate coordinate : neighbours.keySet()){
+                Cell neighbour = neighbours.get(coordinate);
+                if (neighbour != null && neighbour.isBurning()){
+                    if (hasWind && windDirection != WindDirection.None){
+                        switch (windDirection){
+                            case North:
+                                if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                }
+                                break;
+                            case East:
+                                if (coordinate.y() < coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.y() > coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                }
+                                break;
+                            case South:
+                                if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                }
+                                break;
+                            case West:
+                                if (coordinate.y() > coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.y() < coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                }
+                        }
+                    } else {
                         cell.ignite();
-                        isAffected = true;
                     }
+                    isAffected = true;
                 }
             }
             if (isAffected){
@@ -123,5 +165,13 @@ public class Calculator implements Observer, Notifier{
                 frontier.put(coordinate, o.retrieveCell(coordinate));
             }
         }
+    }
+
+    void setWindDirection(WindDirection direction){
+        windDirection = direction;
+    }
+
+    void setHasWind(boolean wind){
+        hasWind = wind;
     }
 }
