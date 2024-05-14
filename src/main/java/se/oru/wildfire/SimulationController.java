@@ -1,7 +1,5 @@
 package se.oru.wildfire;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,13 +8,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 public class SimulationController {
 
+    private Button playButton;
+    private Button pauseButton;
     private Slider animationSlider;
-    private ExtendedButton currentButton;
 
+    Pane createLayout(Controller controller){
     Pane createLayout(){
         String css = this.getClass().getResource("/styles.css").toExternalForm();
         // Animation controls
@@ -70,19 +69,17 @@ public class SimulationController {
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
 
+        // Event handlers
+        playButton.setOnAction(actionEvent -> controller.startTimer());
+        pauseButton.setOnAction(actionEvent -> controller.pauseTimer());
+
+        // If we have wind -> controller.setWind(boolean)
+        // Wind direction -> controller.setWindDirection(Calculator.WindDirection)
         VBox simulationGroup= new VBox(layout, animationSlider);
         simulationGroup.getStylesheets().add(css);
         simulationGroup.setSpacing(10);
 
         return simulationGroup;
-    }
-
-    public void run(){
-        // TODO: Implement
-    }
-
-    public void pause(){
-        // TODO: Implement
     }
 
     public void addTick(){
@@ -97,11 +94,4 @@ public class SimulationController {
     public void setWindDirection(int angle){
         // TODO: Implement
     }
-
-    public void windControl(){
-
-    }
-
-
-
 }

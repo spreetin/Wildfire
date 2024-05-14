@@ -28,6 +28,7 @@ public class Controller implements ActionListener {
         }
         InitialMap initialMap = new InitialMap(cells);
         view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
     }
 
     public void setTickSpeed(int msecs){
@@ -45,5 +46,13 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         calculator.needUpdate();
+    }
+
+    public void setWindDirection(Calculator.WindDirection windDirection){
+        calculator.setWindDirection(windDirection);
+    }
+
+    public void setWind(boolean wind){
+        calculator.setHasWind(wind);
     }
 }
