@@ -11,7 +11,7 @@ public class Controller implements ActionListener {
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
 
-    final Timer timer = new Timer(1000, this);
+    final Timer timer = new Timer(500, this);
 
     public Controller(View view){
         this.view = view;
