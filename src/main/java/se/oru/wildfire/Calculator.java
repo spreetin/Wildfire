@@ -68,7 +68,14 @@ public class Calculator implements Observer, Notifier{
             }
         }
     }
-
+    private int windTurbulence() {
+        double freq = 0.5;
+        double amplitude = 50;
+        double timer = System.currentTimeMillis() / 1000.0;
+        double turbulence = amplitude * Math.sin(Math.PI * freq * timer);
+        turbulence = Math.abs(turbulence);
+        return (int)turbulence;
+    }
     public void needUpdate(){
         updatedCells.clear();
         for (Coordinate coord : (frontier.keySet())){
