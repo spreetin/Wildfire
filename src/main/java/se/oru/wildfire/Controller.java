@@ -69,4 +69,14 @@ public class Controller implements ActionListener {
         view.setInitialMap(initialMap);
         model.setInitialMap(initialMap);
     }
+
+    public void setActiveTick(int tickNumber){
+        if (frameStatistics.hasTick(tickNumber)){
+            Cell[][] tick = frameStatistics.getTick(tickNumber);
+            InitialMap initialMap = new InitialMap(tick);
+            view.setInitialMap(initialMap);
+            model.setInitialMap(initialMap);
+            frameStatistics.setCurrentTick(tickNumber);
+        }
+    }
 }
