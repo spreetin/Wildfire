@@ -13,6 +13,14 @@ public class View extends GridPane implements Observer {
     private int brushSize = 1;
     private boolean mousePressed = false;
 
+    // Define colours used
+    private final Color treeColor = Color.DARKGREEN;
+    private final Color waterColor = Color.DARKBLUE;
+    private final Color stoneColor = Color.DIMGREY;
+    private final Color fireColor = Color.DARKORANGE;
+    private final Color burnedOutColor = Color.BLACK;
+    private final Color noneColor = Color.WHITE;
+
     @Override
     public void newUpdate(Notifier o) {
         // Cast o to Model class
@@ -41,15 +49,15 @@ public class View extends GridPane implements Observer {
         Rectangle rect = cells[coordinates.x()][coordinates.y()];
         if(rect != null){
             if(cell.isBurning() && cell.getGroundType() != Cell.GroundType.Stone && cell.getGroundType() != Cell.GroundType.Water){
-                color = Color.DARKORANGE;
+                color = fireColor;
             } else if (cell.burnedOut()) {
-                color = Color.BLACK;
+                color = burnedOutColor;
             } else {
                 switch (cell.getGroundType()) {
-                    case None -> color = Color.WHITE;
-                    case Trees -> color = Color.DARKGREEN;
-                    case Stone -> color = Color.DIMGRAY;
-                    case Water -> color = Color.DARKBLUE;
+                    case None -> color = noneColor;
+                    case Trees -> color = treeColor;
+                    case Stone -> color = stoneColor;
+                    case Water -> color = waterColor;
                     default -> {
                     }
                 }
@@ -138,15 +146,15 @@ public class View extends GridPane implements Observer {
             for (int j=0; j<cells[0].length; j++){
                 Paint fill = cells[i][j].getFill();
                 if (fill instanceof Color c){
-                    if (c == Color.DARKGREEN){
+                    if (c == treeColor){
                         mapData[i][j] = new Cell(Cell.GroundType.Trees);
-                    } else if (c == Color.DARKBLUE){
+                    } else if (c == waterColor){
                         mapData[i][j] = new Cell(Cell.GroundType.Water);
-                    } else if (c == Color.DIMGREY){
+                    } else if (c == stoneColor){
                         mapData[i][j] = new Cell(Cell.GroundType.Stone);
-                    } else if (c == Color.BLACK){
+                    } else if (c == burnedOutColor){
                         mapData[i][j] = new Cell(100);
-                    } else if (c == Color.RED){
+                    } else if (c == fireColor){
                         mapData[i][j] = new Cell(10);
                     }
                 } else {

@@ -83,38 +83,55 @@ public class Calculator implements Observer, Notifier{
                 cell.ignite();
                 isAffected = true;
             }
-            HashMap<Coordinate,Cell> neighbours = getNeighbours(coord);
+            HashMap<Coordinate,Cell> neighbours = new HashMap<>();
+            Coordinate[] neighbourCoordinates = {new Coordinate(coord.x()-1, coord.y()),
+                                                new Coordinate(coord.x()+1, coord.y()),
+                                                new Coordinate(coord.x(), coord.y()-1),
+                                                new Coordinate(coord.x(), coord.y()+1)};
+            for (Coordinate neighbourCoordinate : neighbourCoordinates){
+                if (frontier.containsKey(neighbourCoordinate)){
+                    neighbours.put(neighbourCoordinate, frontier.get(neighbourCoordinate));
+                }
+            }
             for (Coordinate coordinate : neighbours.keySet()){
                 Cell neighbour = neighbours.get(coordinate);
-                if (neighbour != null && neighbour.isBurning()){
+                if (neighbour != null && neighbour.canSpread()){
                     if (hasWind && windDirection != WindDirection.None){
                         switch (windDirection){
                             case North:
-                                if (coordinate.x() > coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
-                                } else if (coordinate.x() < coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
-                                }
-                                break;
-                            case East:
-                                if (coordinate.y() < coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
-                                } else if (coordinate.y() > coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
-                                }
-                                break;
-                            case South:
-                                if (coordinate.x() < coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
-                                } else if (coordinate.x() > coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
-                                }
-                                break;
-                            case West:
                                 if (coordinate.y() > coord.y()){
                                     cell.setBurnedLevel(cell.burnedLevel()+20);
                                 } else if (coordinate.y() < coord.y()){
                                     cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case East:
+                                if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case South:
+                                if (coordinate.y() < coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.y() > coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case West:
+                                if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
                                 }
                         }
                     } else {
@@ -159,13 +176,20 @@ public class Calculator implements Observer, Notifier{
 
     @Override
     public void newUpdate(Notifier o) {
-        // Cast o to Model class
         if (frontier.isEmpty()){
             setBaseState(o);
         } else {
+            frontier.clear();
             Coordinate[] modelUpdatedCells = o.updatedCells();
             for (Coordinate coordinate: modelUpdatedCells){
-                frontier.put(coordinate, o.retrieveCell(coordinate));
+                if (!frontier.containsKey(coordinate))
+                    frontier.put(coordinate, o.retrieveCell(coordinate));
+                HashMap<Coordinate, Cell> neighbours = o.getNeighbours(coordinate);
+                for (Coordinate neighbour : neighbours.keySet()){
+                    if (!frontier.containsKey(neighbour)){
+                        frontier.put(neighbour, neighbours.get(neighbour));
+                    }
+                }
             }
         }
     }
