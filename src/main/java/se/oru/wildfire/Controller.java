@@ -20,18 +20,23 @@ public class Controller implements ActionListener {
         model.registerListener(frameStatistics);
         model.registerListener(calculator);
         calculator.registerListener(model);
-        Cell[][] cells = new Cell[50][50];
-        for (int i=0; i<50; i++){
-            for (int j=0; j<50; j++){
+        setMapSize(50,50);
+    }
+
+    public void setMapSize(int width, int height) {
+
+        Cell[][] cells = new Cell[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 cells[i][j] = new Cell();
                 cells[i][j].setGroundType(Cell.GroundType.Trees);
             }
         }
+
         InitialMap initialMap = new InitialMap(cells);
         view.setInitialMap(initialMap);
         model.setInitialMap(initialMap);
     }
-
     public void setTickSpeed(int msecs){
         timer.setDelay(msecs);
     }
