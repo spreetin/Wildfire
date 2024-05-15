@@ -68,7 +68,14 @@ public class Calculator implements Observer, Notifier{
             }
         }
     }
-
+    private int windTurbulence() {
+        double freq = 0.5;
+        double amplitude = 50;
+        double timer = System.currentTimeMillis() / 1000.0;
+        double turbulence = amplitude * Math.sin(Math.PI * freq * timer);
+        turbulence = Math.abs(turbulence);
+        return (int)turbulence;
+    }
     public void needUpdate(){
         updatedCells.clear();
         for (Coordinate coord : (frontier.keySet())){
@@ -100,7 +107,7 @@ public class Calculator implements Observer, Notifier{
                         switch (windDirection){
                             case North:
                                 if (coordinate.y() > coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    cell.setBurnedLevel(cell.burnedLevel()+windTurbulence());
                                 } else if (coordinate.y() < coord.y()){
                                     cell.setBurnedLevel(cell.burnedLevel()+5);
                                 } else {
@@ -109,7 +116,7 @@ public class Calculator implements Observer, Notifier{
                                 break;
                             case East:
                                 if (coordinate.x() < coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    cell.setBurnedLevel(cell.burnedLevel()+windTurbulence());
                                 } else if (coordinate.x() > coord.x()){
                                     cell.setBurnedLevel(cell.burnedLevel()+5);
                                 } else {
@@ -118,7 +125,7 @@ public class Calculator implements Observer, Notifier{
                                 break;
                             case South:
                                 if (coordinate.y() < coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    cell.setBurnedLevel(cell.burnedLevel()+windTurbulence());
                                 } else if (coordinate.y() > coord.y()){
                                     cell.setBurnedLevel(cell.burnedLevel()+5);
                                 } else {
@@ -127,7 +134,7 @@ public class Calculator implements Observer, Notifier{
                                 break;
                             case West:
                                 if (coordinate.x() > coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    cell.setBurnedLevel(cell.burnedLevel()+windTurbulence());
                                 } else if (coordinate.x() < coord.x()){
                                     cell.setBurnedLevel(cell.burnedLevel()+5);
                                 } else {
