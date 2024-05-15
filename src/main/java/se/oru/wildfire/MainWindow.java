@@ -1,5 +1,7 @@
 package se.oru.wildfire;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
@@ -20,8 +22,8 @@ public class MainWindow {
         // Create view
         view = new View();
         paintManager = new PaintManager();
-        view.setMaxWidth(Double.MAX_VALUE);
-        view.setMaxHeight(Double.MAX_VALUE);
+        //view.setMaxWidth(Double.MAX_VALUE);
+        //view.setMaxHeight(Double.MAX_VALUE);
         controller = new Controller(view);
 
         // Set up controls elements
@@ -32,10 +34,15 @@ public class MainWindow {
         VBox rightPane = new VBox(painterGroup, spacer, simulationGroup);
 
         // Main layout
-        HBox.setHgrow(view, Priority.ALWAYS);
         Separator hSeparator = new Separator();
         hSeparator.setOrientation(Orientation.VERTICAL);
-        HBox horizontalSplit = new HBox(view, hSeparator, rightPane);
+        Pane viewContainer = new Pane(view);
+        viewContainer.setMaxHeight(Double.MAX_VALUE);
+        viewContainer.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(viewContainer, Priority.ALWAYS);
+        viewContainer.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> view.resize());
+        viewContainer.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> view.resize());
+        HBox horizontalSplit = new HBox(viewContainer, hSeparator, rightPane);
         newWindow.setScene(new Scene(horizontalSplit));
         newWindow.setMinHeight(700);
         newWindow.setMinWidth(1000);

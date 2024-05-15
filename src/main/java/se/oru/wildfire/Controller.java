@@ -64,10 +64,7 @@ public class Controller implements ActionListener {
     }
 
     public void resetWithMap(){
-        Cell[][] tick = frameStatistics.getTick(0);
-        InitialMap initialMap = new InitialMap(tick);
-        view.setInitialMap(initialMap);
-        model.setInitialMap(initialMap);
+        setActiveTick(0);
     }
 
     public void setActiveTick(int tickNumber){
