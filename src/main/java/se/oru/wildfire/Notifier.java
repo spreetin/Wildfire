@@ -1,6 +1,7 @@
 package se.oru.wildfire;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface Notifier {
@@ -13,19 +14,23 @@ public interface Notifier {
         return retrieveCell(coordinate.x(), coordinate.y());
     }
 
-    default List<Cell> getNeighbours(Coordinate coordinate){
-        ArrayList<Cell> neighbours = new ArrayList<>();
+    default HashMap<Coordinate, Cell> getNeighbours(Coordinate coordinate){
+        HashMap<Coordinate, Cell> neighbours = new HashMap<>();
         if (coordinate.x() > 0){
-            neighbours.add(retrieveCell(coordinate.x()-1, coordinate.y()));
+            Coordinate newCoord = new Coordinate(coordinate.x()-1, coordinate.y());
+            neighbours.put(newCoord, retrieveCell(newCoord));
         }
         if (coordinate.y() > 0){
-            neighbours.add(retrieveCell(coordinate.x(), coordinate.y()-1));
+            Coordinate newCoord = new Coordinate(coordinate.x(), coordinate.y()-1);
+            neighbours.put(newCoord, retrieveCell(newCoord));
         }
         if (retrieveCell(coordinate.x()+1, coordinate.y()) != null){
-            neighbours.add(retrieveCell(coordinate.x()+1, coordinate.y()));
+            Coordinate newCoord = new Coordinate(coordinate.x()+1, coordinate.y());
+            neighbours.put(newCoord, retrieveCell(newCoord));
         }
         if (retrieveCell(coordinate.x(), coordinate.y()+1) != null){
-            neighbours.add(retrieveCell(coordinate.x(), coordinate.y()+1));
+            Coordinate newCoord = new Coordinate(coordinate.x(), coordinate.y()+1);
+            neighbours.put(newCoord, retrieveCell(newCoord));
         }
         return neighbours;
     }

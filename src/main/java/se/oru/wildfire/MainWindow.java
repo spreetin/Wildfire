@@ -10,7 +10,7 @@ public class MainWindow {
 
     final View view;
     final Controller controller;
-    final PaintManager paintManager = new PaintManager();
+    final PaintManager paintManager;
     final SimulationController simulationController = new SimulationController();
 
     public MainWindow(){
@@ -19,12 +19,14 @@ public class MainWindow {
 
         // Create view
         view = new View();
+        paintManager = new PaintManager();
         view.setMaxWidth(Double.MAX_VALUE);
         view.setMaxHeight(Double.MAX_VALUE);
+        controller = new Controller(view);
 
         // Set up controls elements
-        Pane painterGroup = paintManager.createLayout();
-        Pane simulationGroup = simulationController.createLayout();
+        Pane painterGroup = paintManager.createLayout(view);
+        Pane simulationGroup = simulationController.createLayout(controller);
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
         VBox rightPane = new VBox(painterGroup, spacer, simulationGroup);
@@ -37,8 +39,6 @@ public class MainWindow {
         newWindow.setScene(new Scene(horizontalSplit));
         newWindow.setMinHeight(700);
         newWindow.setMinWidth(1000);
-
-        controller = new Controller(view);
         newWindow.show();
     }
 }

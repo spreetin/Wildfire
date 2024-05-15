@@ -1,0 +1,140 @@
+/* buttons */
+.button {
+    -fx-border-width: 2px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5px 5px;
+    -fx-font-size: 12px;
+    -fx-min-width: 70px;
+    -fx-min-height: 40px;
+    -fx-font-family: Consolas;
+}
+
+.button-tree {
+    -fx-background-color: white;
+    -fx-text-fill: darkgreen;
+    -fx-border-color: darkgreen;
+}
+
+.button-tree:hover,
+.button-tree.active{
+    -fx-background-color: darkgreen;
+    -fx-text-fill: white;
+}
+
+.button-water {
+    -fx-background-color: white;
+    -fx-text-fill: darkblue;
+    -fx-border-color: darkblue;
+}
+
+.button-water:hover,
+.button-water.active{
+    -fx-background-color: darkblue;
+    -fx-text-fill: white;
+}
+
+.button-stone {
+    -fx-background-color: white;
+    -fx-text-fill: dimgray;
+    -fx-border-color: dimgray;
+}
+
+.button-stone:hover,
+.button-stone.active{
+    -fx-background-color: dimgray;
+    -fx-text-fill: white;
+}
+
+.button-fire {
+    -fx-background-color: white;
+    -fx-text-fill: darkorange;
+    -fx-border-color: darkorange;
+}
+
+.button-fire:hover,
+.button-fire.active{
+    -fx-background-color: darkorange;
+    -fx-text-fill: white;
+}
+
+.button-play {
+    -fx-background-color: white;
+    -fx-text-fill: green;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-play:hover,
+.button-play.active{
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}
+
+.button-pause {
+    -fx-background-color: white;
+    -fx-text-fill: red;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-pause:hover,
+.button-pause.active{
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
+.button-wind {
+    -fx-background-color: white;
+    -fx-text-fill: grey;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-wind:hover,
+.button-wind.active{
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+}
+
+.button-wind-direction {
+    -fx-min-width: 45px;
+    -fx-min-height: 20px;
+    -fx-background-color: white;
+    -fx-text-fill: grey;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-wind-direction:hover,
+.button-wind-direction.active{
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+}
+
+.label {
+    -fx-font-family: Consolas;
+    -fx-font-size: 14;
+    -fx-background-color: lightgrey;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5);
+}
+
+.brush-slider {
+    -fx-padding: 20 20;
+    -fx-pref-width: 200px;
+    -fx-min-height: 10px;
+    -fx-border-radius: 3px;
+}
+
+.brush-slider .track {
+    -fx-background-color: lightgrey;
+    -fx-background-radius: 3px;
+}
+
+.brush-slider .thumb {
+    -fx-background-color: dimgrey;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
+}
+
