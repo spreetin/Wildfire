@@ -77,11 +77,10 @@ public class Calculator implements Observer, Notifier{
             if (cell.getGroundType() != Cell.GroundType.Trees){
                 continue;
             }
-            boolean isAffected = false;
-            if (cell.isBurning()){
-                cell.ignite();
-                isAffected = true;
+            if (cell.burnedOut()){
+                continue;
             }
+            int burnChange = 0;
             HashMap<Coordinate,Cell> neighbours = new HashMap<>();
             Coordinate[] neighbourCoordinates = {new Coordinate(coord.x()-1, coord.y()),
                                                 new Coordinate(coord.x()+1, coord.y()),
@@ -100,55 +99,56 @@ public class Calculator implements Observer, Notifier{
                         switch (windDirection){
                             case North:
                                 if (coordinate.y() > coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    burnChange += 20;
                                 } else if (coordinate.y() < coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                    burnChange += 5;
                                 } else {
-                                    cell.ignite();
+                                    burnChange += 10;
                                 }
                                 break;
                             case East:
                                 if (coordinate.x() < coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    burnChange += 20;
                                 } else if (coordinate.x() > coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                    burnChange += 5;
                                 } else {
-                                    cell.ignite();
+                                    burnChange += 10;
                                 }
                                 break;
                             case South:
                                 if (coordinate.y() < coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    burnChange += 20;
                                 } else if (coordinate.y() > coord.y()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                    burnChange += 5;
                                 } else {
-                                    cell.ignite();
+                                    burnChange += 10;
                                 }
                                 break;
                             case West:
                                 if (coordinate.x() > coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                    burnChange += 20;
                                 } else if (coordinate.x() < coord.x()){
-                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                    burnChange += 5;
                                 } else {
-                                    cell.ignite();
+                                    burnChange += 10;
                                 }
                         }
                     } else {
-                        cell.ignite();
+                        burnChange += 10;
                     }
-                    for (Coordinate cord :  neighbours.keySet()){
-                        if (neighbours.get(cord).getGroundType() == Cell.GroundType.Water && cell.isBurning() && neighbours.get(cord).getGroundType() != null){
-                            cell.setBurnedLevel(0);
-                        }
-                        if (neighbours.get(cord).getGroundType() == Cell.GroundType.Stone  && cell.isBurning() &&  neighbours.get(cord).getGroundType() != null){
-                            cell.setBurnedLevel(cell.burnedLevel() - 5);
-                        }
-                    }
-                    isAffected = true;
+                }
+                if (neighbour != null && neighbour.getGroundType() == Cell.GroundType.Water){
+                    burnChange -= 35;
+                }
+                if (neighbour != null && neighbour.getGroundType() == Cell.GroundType.Stone && cell.isBurning()){
+                    burnChange -= 5;
                 }
             }
-            if (isAffected){
+            if (cell.isBurning()){
+                burnChange += 10;
+            }
+            if (burnChange != 0){
+                cell.setBurnedLevel(cell.burnedLevel() + burnChange);
                 updatedCells.put(coord, cell);
             }
         }
