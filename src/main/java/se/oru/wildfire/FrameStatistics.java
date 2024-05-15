@@ -10,6 +10,9 @@ public class FrameStatistics implements Observer {
     Cell[][] startingMap;
 
     public boolean hasTick(int tick){
+        if(tick == 0 && startingMap != null){
+            return true;
+        }
         return ticks.containsKey(tick);
     }
 
@@ -18,6 +21,9 @@ public class FrameStatistics implements Observer {
     }
 
     public Cell[][] getTick(int tick){
+        if(tick == 0){
+            return startingMap;
+        }
         int width = startingMap.length;
         if (width == 0)
             return null;

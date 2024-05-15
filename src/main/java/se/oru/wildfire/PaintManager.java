@@ -1,7 +1,10 @@
 package se.oru.wildfire;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
@@ -10,9 +13,11 @@ import javafx.scene.paint.Color;
 public class PaintManager {
     private ExtendedButton currentButton;
 
+
     Pane createLayout(View view){
         // Painters
         String css = this.getClass().getResource("/styles.css").toExternalForm();
+
         // Trees
         ExtendedButton treeButton = new ExtendedButton("Trees", "tree");
         treeButton.setOnAction(actionEvent -> setColorType("Trees", view));

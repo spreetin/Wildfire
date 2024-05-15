@@ -11,7 +11,6 @@ public class Controller implements ActionListener {
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
     final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
-
     final Timer timer = new Timer(500, this);
 
     public Controller(View view){
@@ -24,7 +23,6 @@ public class Controller implements ActionListener {
     }
 
     public void setMapSize(int width, int height) {
-
         Cell[][] cells = new Cell[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -32,7 +30,6 @@ public class Controller implements ActionListener {
                 cells[i][j].setGroundType(Cell.GroundType.Trees);
             }
         }
-
         InitialMap initialMap = new InitialMap(cells);
         view.setInitialMap(initialMap);
         model.setInitialMap(initialMap);
