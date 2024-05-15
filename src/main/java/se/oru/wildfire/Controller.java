@@ -62,4 +62,11 @@ public class Controller implements ActionListener {
     public void setWind(boolean wind){
         calculator.setHasWind(wind);
     }
+
+    public void resetWithMap(){
+        Cell[][] tick = frameStatistics.getTick(0);
+        InitialMap initialMap = new InitialMap(tick);
+        view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
+    }
 }
