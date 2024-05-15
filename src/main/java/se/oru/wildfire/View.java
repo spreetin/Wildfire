@@ -25,6 +25,7 @@ public class View extends GridPane implements Observer {
         setManaged(false);
         widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> resizeChildren());
         heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> resizeChildren());
+        setupMouseHandlers();
     }
 
     private void resizeChildren(){
@@ -58,7 +59,7 @@ public class View extends GridPane implements Observer {
                 this.add(cells[i][j], i, j);
             }
         }
-        setupMouseHandlers(size);
+        resizeChildren();
     }
 
     public void drawCell(Cell cell, Coordinate coordinates){
@@ -107,25 +108,25 @@ public class View extends GridPane implements Observer {
         return x >= 0 && x < cells.length && y >= 0 && y < cells[0].length;
     }
 
-    private void setupMouseHandlers(Coordinate size) {
+    private void setupMouseHandlers() {
         this.setOnMousePressed(event ->
         {
             mousePressed = true;
-            handleCellMouseOver(event, size);
+            handleCellMouseOver(event);
         });
 
         this.setOnMouseDragged(event ->
         {
             if (mousePressed) {
-                handleCellMouseOver(event, size);
+                handleCellMouseOver(event);
             }
         });
         this.setOnMouseReleased(_ -> mousePressed = false);
     }
 
-    private void handleCellMouseOver(MouseEvent event, Coordinate size) {
-        for (int row = 0; row < size.y(); row++) {
-            for (int col = 0; col < size.x(); col++) {
+    private void handleCellMouseOver(MouseEvent event) {
+        for (int row = 0; row < cells[0].length; row++) {
+            for (int col = 0; col < cells.length; col++) {
                 Bounds bounds = cells[col][row].getBoundsInParent();
                 if (bounds.contains(event.getX(), event.getY())) {
                     handleCellClick(col, row);
