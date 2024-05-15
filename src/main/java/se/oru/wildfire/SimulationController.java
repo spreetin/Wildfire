@@ -1,8 +1,10 @@
 package se.oru.wildfire;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
@@ -10,8 +12,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class SimulationController {
-
+    private final ObservableList<String> sizeOptions =
+            FXCollections.observableArrayList(
+                    "50x50",
+                    "100x100",
+                    "150x150",
+                    "200x200"
+            );
     private Slider animationSlider;
+    private ExtendedButton currentButtonWind;
     private ExtendedButton currentButton;
     private Boolean windControl = false;
     private ExtendedButton currentWindDirection;
@@ -19,6 +28,28 @@ public class SimulationController {
     Pane createLayout(Controller controller){
         String css = this.getClass().getResource("/styles.css").toExternalForm();
 
+        // Dropdown menu of sizes
+        ComboBox<String> dropDownSizeMenu = new ComboBox<>(sizeOptions);
+        dropDownSizeMenu.setValue("50x50");
+        dropDownSizeMenu.setOnAction(event -> {
+            String selectedSize = dropDownSizeMenu.getValue();
+            switch(selectedSize){
+                case "50x50":
+                    controller.setMapSize(50,50);
+                    break;
+                case "100x100":
+                    controller.setMapSize(100,100);
+                    break;
+                case "150x150":
+                    controller.setMapSize(150,150);
+                    break;
+                case "200x200":
+                    controller.setMapSize(200,200);
+                    break;
+                default:
+                    break;
+            }
+        });
         // Animation controls
         ExtendedButton playButton = new ExtendedButton("Play", "play");
         playButton.setOnMousePressed(event -> {
@@ -33,6 +64,12 @@ public class SimulationController {
             currentButton = pauseButton;
         });
         pauseButton.setOnAction(event -> controller.pauseTimer());
+
+        ExtendedButton resetButton = new ExtendedButton("Reset", "reset");
+        resetButton.setOnMousePressed(event -> {
+            resetButton.buttonStayActive();
+        });
+        resetButton.setOnAction(event -> controller.resetWithMap());
 
         // Wind Controls
         ExtendedButton windEnabler = new ExtendedButton("Wind Off", "wind");
@@ -51,8 +88,8 @@ public class SimulationController {
 
         ExtendedButton windNorth = new ExtendedButton("North", "wind-direction");
         windNorth.setOnMousePressed(event -> {
-            windNorth.buttonActive(currentButton);
-            currentButton = windNorth;
+            windNorth.buttonActive(currentButtonWind);
+            currentButtonWind = windNorth;
         });
         windNorth.setOnAction(event -> {
             controller.setWindDirection(Calculator.WindDirection.North);
@@ -60,8 +97,8 @@ public class SimulationController {
 
         ExtendedButton windSouth = new ExtendedButton("South", "wind-direction");
         windSouth.setOnMousePressed(event -> {
-            windSouth.buttonActive(currentButton);
-            currentButton = windSouth;
+            windSouth.buttonActive(currentButtonWind);
+            currentButtonWind = windSouth;
         });
         windSouth.setOnAction(event -> {
             controller.setWindDirection(Calculator.WindDirection.South);
@@ -69,8 +106,8 @@ public class SimulationController {
 
         ExtendedButton windWest = new ExtendedButton("West", "wind-direction");
         windWest.setOnMousePressed(event -> {
-            windWest.buttonActive(currentButton);
-            currentButton = windWest;
+            windWest.buttonActive(currentButtonWind);
+            currentButtonWind = windWest;
         });
         windWest.setOnAction(event -> {
             controller.setWindDirection(Calculator.WindDirection.West);
@@ -78,53 +115,68 @@ public class SimulationController {
 
         ExtendedButton windEast = new ExtendedButton("East", "wind-direction");
         windEast.setOnMousePressed(event -> {
-            windEast.buttonActive(currentButton);
-            currentButton = windEast;
+            windEast.buttonActive(currentButtonWind);
+            currentButtonWind = windEast;
         });
         windEast.setOnAction(event -> {
             controller.setWindDirection(Calculator.WindDirection.East);
         });
 
+        ExtendedButton exportReport = new ExtendedButton("Export", "");
+        exportReport.setOnMousePressed(event -> {
+            exportReport.buttonActive(currentButton);
+        });
+        exportReport.setOnAction(event -> controller.reportGenerator.recordCounter());
 
         // Labelling
-        Label animationControlLabel = new Label("Simulation Controls");
-        animationControlLabel.getStyleClass().add("label");
-        animationControlLabel.setAlignment(Pos.CENTER);
-        animationControlLabel.setMaxWidth(Double.MAX_VALUE);
-
-        Label windControlLabel = new Label("Wind Control");
-        windControlLabel.getStyleClass().add("label");
-        windControlLabel.setAlignment(Pos.CENTER);
-        windControlLabel.setMaxWidth(Double.MAX_VALUE);
+        Label mapResizerLabel = newLabel("Resize Map");
+        Label windControlLabel = newLabel("Wind Control");
+        Label animationControlLabel = newLabel("Simulation Controls");
+        Label animationSliderLabel = newLabel("Animation Slider");
+        Label reportGenerationLabel = newLabel("Report Generator");
 
 
         // Setup
-        HBox animationControlButtons = new HBox(playButton, pauseButton);
-        animationControlButtons.setAlignment(Pos.CENTER);
-        animationControlButtons.setSpacing(10);
+        VBox mapResize = new VBox(mapResizerLabel,dropDownSizeMenu);
+        mapResize.setSpacing(10);
+        mapResize.setAlignment(Pos.CENTER);
 
-        HBox NorthWest = new HBox(windNorth, windWest);
-        NorthWest.setSpacing(10);
-        HBox SouthEast = new HBox(windSouth, windEast);
-        SouthEast.setSpacing(10);
+        HBox northWest = new HBox(windNorth, windWest);
+        northWest.setSpacing(10);
+        HBox southEast = new HBox(windSouth, windEast);
+        southEast.setSpacing(10);
 
-        VBox windDirection = new VBox(NorthWest,SouthEast);
+        VBox windDirection = new VBox(northWest, southEast);
         windDirection.setSpacing(10);
 
         HBox windDirectionControl = new HBox(windDirection, windEnabler);
         windDirectionControl.setSpacing(10);
         windDirectionControl.setAlignment(Pos.CENTER);
 
-        VBox layout = new VBox(windControlLabel, windDirectionControl, animationControlLabel, animationControlButtons);
-        layout.setAlignment(Pos.CENTER);
-        layout.setSpacing(10);
+        HBox animationControlButtons = new HBox(playButton, pauseButton, resetButton);
+        animationControlButtons.setAlignment(Pos.CENTER);
+        animationControlButtons.setSpacing(10);
 
-        // Animation slider
+
+
+        // animation Slider
         animationSlider = new Slider();
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
 
-        VBox simulationGroup= new VBox(layout, animationSlider);
+        VBox layout = new VBox(mapResize,
+                windControlLabel,
+                windDirectionControl,
+                animationControlLabel,
+                animationControlButtons,
+                animationSliderLabel,
+                animationSlider,
+                reportGenerationLabel,
+                exportReport);
+        layout.setAlignment(Pos.CENTER);
+        layout.setSpacing(10);
+
+        VBox simulationGroup= new VBox(layout);
         simulationGroup.getStylesheets().add(css);
         simulationGroup.setSpacing(10);
 
@@ -135,4 +187,13 @@ public class SimulationController {
         animationSlider.setMax(animationSlider.getValue()+1);
         animationSlider.setValue(animationSlider.getMax());
     }
+
+    private Label newLabel(String name){
+        Label newLabel = new Label(name);
+        newLabel.getStyleClass().add("label");
+        newLabel.setAlignment(Pos.CENTER);
+        newLabel.setMaxWidth(Double.MAX_VALUE);
+        return newLabel;
+    }
+
 }

@@ -96,6 +96,18 @@
     -fx-text-fill: white;
 }
 
+.button-reset {
+    -fx-background-color: white;
+    -fx-text-fill: grey;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-reset:hover{
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+}
+
 .button-wind-direction {
     -fx-min-width: 45px;
     -fx-min-height: 20px;
