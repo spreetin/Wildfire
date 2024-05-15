@@ -1,32 +1,53 @@
 package se.oru.wildfire;
 
-import se.oru.wildfire.Calculator;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller implements ActionListener {
 
-    final View view = new View();
+    final View view ;
     final Model model = new Model();
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
+    final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
 
-    Timer timer = new Timer(1000, this);
+    final Timer timer = new Timer(500, this);
 
-    public Controller(){
+    public Controller(View view){
+        this.view = view;
         model.registerListener(view);
         model.registerListener(frameStatistics);
         model.registerListener(calculator);
         calculator.registerListener(model);
+        setMapSize(50,50);
     }
 
+    public void setMapSize(int width, int height) {
+
+        Cell[][] cells = new Cell[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                cells[i][j] = new Cell();
+                cells[i][j].setGroundType(Cell.GroundType.Trees);
+            }
+        }
+
+        InitialMap initialMap = new InitialMap(cells);
+        view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
+    }
     public void setTickSpeed(int msecs){
         timer.setDelay(msecs);
     }
 
     public void startTimer(){
+        if (frameStatistics.getCurrentTick() == 0){
+            InitialMap initialMap = view.returnPaintedMap();
+            model.setInitialMap(initialMap);
+            frameStatistics.setStartingMap(initialMap.getMap());
+            calculator.setInitialMap(initialMap);
+        }
         timer.start();
     }
 
@@ -37,5 +58,30 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         calculator.needUpdate();
+    }
+
+    public void setWindDirection(Calculator.WindDirection windDirection){
+        calculator.setWindDirection(windDirection);
+    }
+
+    public void setWind(boolean wind){
+        calculator.setHasWind(wind);
+    }
+
+    public void resetWithMap(){
+        Cell[][] tick = frameStatistics.getTick(0);
+        InitialMap initialMap = new InitialMap(tick);
+        view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
+    }
+
+    public void setActiveTick(int tickNumber){
+        if (frameStatistics.hasTick(tickNumber)){
+            Cell[][] tick = frameStatistics.getTick(tickNumber);
+            InitialMap initialMap = new InitialMap(tick);
+            view.setInitialMap(initialMap);
+            model.setInitialMap(initialMap);
+            frameStatistics.setCurrentTick(tickNumber);
+        }
     }
 }

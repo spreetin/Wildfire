@@ -1,17 +1,22 @@
 package se.oru.wildfire;
 
-import javax.lang.model.type.NullType;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
 
 public class Calculator implements Observer, Notifier{
 
-    List<Observer> listeners;
-    Map<Coordinate, Cell> frontier;
-    Map<Coordinate, Cell> updatedCells;
+    public enum WindDirection {
+        North,
+        East,
+        South,
+        West,
+        None
+    };
 
+    final List<Observer> listeners;
+    final Map<Coordinate, Cell> frontier;
+    final Map<Coordinate, Cell> updatedCells;
+    WindDirection windDirection = WindDirection.None;
+    boolean hasWind = false;
     public Calculator(){
         listeners = new ArrayList<>();
         frontier = new HashMap<>();
@@ -22,12 +27,16 @@ public class Calculator implements Observer, Notifier{
         return frontier;
     }
 
-    public void setBaseState(Model model){
-        Coordinate size = model.getGridSize();
+    public void setBaseState(Notifier model){
         frontier.clear();
-        for (int i=0;i<size.x();i++){
-            for (int j=0;j<size.y();j++){
+        for (int i=0;;i++){
+            if (model.retrieveCell(i, 0) == null)
+                break;
+            for (int j=0;;j++){
+                if (model.retrieveCell(i, j) == null)
+                    break;
                 if (model.retrieveCell(i, j).isBurning()){
+                    // This part is for updating the frontier
                     if (!frontier.containsKey(new Coordinate(i, j))){
                         frontier.put(new Coordinate(i, j), model.retrieveCell(i, j));
                     }
@@ -36,14 +45,24 @@ public class Calculator implements Observer, Notifier{
                             frontier.put(new Coordinate(i, j-1), model.retrieveCell(i, j-1));
                         }
                     }
-                    if (i+1 < size.x()){
+                    if (model.retrieveCell(i+1, j) != null){
                         if (!frontier.containsKey(new Coordinate(i+1, j))){
                             frontier.put(new Coordinate(i+1, j), model.retrieveCell(i+1, j));
                         }
                     }
-                    if (j+1 < size.y()){
+                    if (model.retrieveCell(i, j+1) != null){
                         if (!frontier.containsKey(new Coordinate(i, j+1))){
                             frontier.put(new Coordinate(i, j+1), model.retrieveCell(i, j+1));
+                        }
+                    }
+                    if (i != 0){
+                        if (!frontier.containsKey(new Coordinate(i-1, j))){
+                            frontier.put(new Coordinate(i-1, j), model.retrieveCell(i-1, j));
+                        }
+                    }
+                    if (j != 0){
+                        if (!frontier.containsKey(new Coordinate(i, j-1))){
+                            frontier.put(new Coordinate(i, j-1), model.retrieveCell(i, j-1));
                         }
                     }
                 }
@@ -54,37 +73,77 @@ public class Calculator implements Observer, Notifier{
     public void needUpdate(){
         updatedCells.clear();
         for (Coordinate coord : (frontier.keySet())){
-            Cell cell = frontier.get(coord);
-            // If the cell we are currently inspecting can't affect other cells continue to the next intreration
-            if (!cell.isBurning()){
+            // Create a copy of the cell in the frontier
+            Cell cell = new Cell(frontier.get(coord));
+            if (cell.getGroundType() != Cell.GroundType.Trees){
                 continue;
             }
-            // if the cell is burnt out remove it from the frontier as it cant be updated
-            if (cell.burnedOut()){
-                frontier.remove(coord);
-                continue;
+            boolean isAffected = false;
+            if (cell.isBurning()){
+                cell.ignite();
+                isAffected = true;
             }
-            // Calculate any update, the boolean represents it being updated
-            for (Coordinate near : (frontier.keySet())){
-                // check all the values in the frontier and check if they are next to the current cell
-                if(Math.abs(coord.x()-near.x())<=1 && (Math.abs(coord.y()-near.y())<=1) && (coord.x() != near.x() || coord.y() != near.y())){
-                    // if we find a cell we want to update put that cell into updatedCells and update it
-                    Cell nearCell = frontier.get(near);
-
-
-                    if(!nearCell.burnedOut()){
-
-                        Cell copy = new Cell(nearCell.burnedLevel());
-                        updatedCells.put(near,copy);
-                        // TODO Update this with a proper algorithm
-                        copy.setBurnedLevel(nearCell.burnedLevel() + cell.burnedLevel());
-                    }
+            HashMap<Coordinate,Cell> neighbours = new HashMap<>();
+            Coordinate[] neighbourCoordinates = {new Coordinate(coord.x()-1, coord.y()),
+                                                new Coordinate(coord.x()+1, coord.y()),
+                                                new Coordinate(coord.x(), coord.y()-1),
+                                                new Coordinate(coord.x(), coord.y()+1)};
+            for (Coordinate neighbourCoordinate : neighbourCoordinates){
+                if (frontier.containsKey(neighbourCoordinate)){
+                    neighbours.put(neighbourCoordinate, frontier.get(neighbourCoordinate));
                 }
-
             }
-
+            for (Coordinate coordinate : neighbours.keySet()){
+                Cell neighbour = neighbours.get(coordinate);
+                if (neighbour != null && neighbour.canSpread()){
+                    if (hasWind && windDirection != WindDirection.None){
+                        switch (windDirection){
+                            case North:
+                                if (coordinate.y() > coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.y() < coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case East:
+                                if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case South:
+                                if (coordinate.y() < coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.y() > coord.y()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                                break;
+                            case West:
+                                if (coordinate.x() > coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+20);
+                                } else if (coordinate.x() < coord.x()){
+                                    cell.setBurnedLevel(cell.burnedLevel()+5);
+                                } else {
+                                    cell.ignite();
+                                }
+                        }
+                    } else {
+                        cell.ignite();
+                    }
+                    isAffected = true;
+                }
+            }
+            if (isAffected){
+                updatedCells.put(coord, cell);
+            }
         }
-
         hasUpdate();
     }
 
@@ -99,11 +158,6 @@ public class Calculator implements Observer, Notifier{
             return updatedCells.get(new Coordinate(x, y));
         }
         return null;
-    }
-
-    @Override
-    public Cell retrieveCell(Coordinate coordinate){
-        return retrieveCell(coordinate.x(), coordinate.y());
     }
 
     public boolean isDifferent(int x, int y){
@@ -122,40 +176,50 @@ public class Calculator implements Observer, Notifier{
 
     @Override
     public void newUpdate(Notifier o) {
-        // Cast o to Model class
-        frontier.clear();
-        Coordinate[] coordinates = o.updatedCells();
-
-        for (Coordinate coordinate : coordinates){
-            // Get the values around the target cell and if they exist and are not burtout they get added to the frontier
-            Coordinate north = new Coordinate(coordinate.x(), coordinate.y()+1);
-            Coordinate south = new Coordinate(coordinate.x(), coordinate.y()-1);
-            Coordinate west = new Coordinate(coordinate.x()+1, coordinate.y());
-            Coordinate east = new Coordinate(coordinate.x()-1, coordinate.y());
-            // This should probly be a for loop but it works fine as is and is not likely to need an update
-            if(o.retrieveCell(north) != null){
-                if(!o.retrieveCell(north).burnedOut()) {
-                    frontier.put(north, o.retrieveCell(north));}
-            }
-            if(o.retrieveCell(south) != null) {
-                if (!o.retrieveCell(south).burnedOut()) {
-                    frontier.put(south, o.retrieveCell(south));
+        if (frontier.isEmpty()){
+            setBaseState(o);
+        } else {
+            frontier.clear();
+            Coordinate[] modelUpdatedCells = o.updatedCells();
+            for (Coordinate coordinate: modelUpdatedCells){
+                if (!frontier.containsKey(coordinate))
+                    frontier.put(coordinate, o.retrieveCell(coordinate));
+                HashMap<Coordinate, Cell> neighbours = o.getNeighbours(coordinate);
+                for (Coordinate neighbour : neighbours.keySet()){
+                    if (!frontier.containsKey(neighbour)){
+                        frontier.put(neighbour, neighbours.get(neighbour));
+                    }
                 }
             }
-            if(o.retrieveCell(west) != null){
-                if(!o.retrieveCell(west).burnedOut()) {
-                    frontier.put(west, o.retrieveCell(west));}
-            }
-
-
-            if(o.retrieveCell(east) != null){
-                if(!o.retrieveCell(east).burnedOut()) {
-                    frontier.put(east, o.retrieveCell(east));}
-            }
-
         }
+    }
 
+    void setWindDirection(WindDirection direction){
+        windDirection = direction;
+    }
 
+    void setHasWind(boolean wind){
+        hasWind = wind;
+    }
 
+    void setInitialMap(InitialMap map){
+        frontier.clear();
+        Coordinate size = map.getSize();
+        for (int i=0;i<size.x();i++){
+            for (int j=0;j<size.y();j++){
+                if (map.getCell(i, j).isBurning()){
+                    for (int k=i-1;k<=i+1;k++){
+                        if (map.getCell(k, j) != null && !frontier.containsKey(new Coordinate(k, j))){
+                            frontier.put(new Coordinate(k, j), map.getCell(k, j));
+                        }
+                    }
+                    for (int k=j-1;k<=j+1;k++){
+                        if (map.getCell(i, k) != null && !frontier.containsKey(new Coordinate(i, k))){
+                            frontier.put(new Coordinate(i, k), map.getCell(i, k));
+                        }
+                    }
+                }
+            }
+        }
     }
 }

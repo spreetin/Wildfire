@@ -1,6 +1,5 @@
 package se.oru.wildfire;
 
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

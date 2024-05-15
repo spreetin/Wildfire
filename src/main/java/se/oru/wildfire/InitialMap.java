@@ -5,7 +5,7 @@ import se.oru.wildfire.Coordinate;
 
 public class InitialMap {
 
-    private Cell[][] map;
+    private final Cell[][] map;
 
     public InitialMap(Cell[][] mapData){
         map = mapData;
@@ -18,8 +18,7 @@ public class InitialMap {
     public Coordinate getSize(){
         int x = this.map.length;
         int y = this.map[0].length;
-        Coordinate size = new Coordinate(x, y);
-        return size;
+        return new Coordinate(x, y);
     }
 
     /**
@@ -28,10 +27,17 @@ public class InitialMap {
      * @return Type Cell
      */
     public Cell getCell(int x, int y){
+        if (x < 0 || y < 0){
+            return null;
+        }
         return map[x][y];
     }
 
     public Cell getCell(Coordinate coordinate){
         return getCell(coordinate.x(), coordinate.y());
+    }
+
+    public Cell[][] getMap(){
+        return map;
     }
 }

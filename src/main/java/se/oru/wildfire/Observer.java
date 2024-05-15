@@ -1,6 +1,6 @@
 package se.oru.wildfire;
 
-interface Observer {
+public interface Observer {
 
     void newUpdate(Notifier o);
 }
