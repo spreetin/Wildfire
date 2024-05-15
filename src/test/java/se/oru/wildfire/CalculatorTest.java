@@ -2,6 +2,7 @@ package se.oru.wildfire;
 
 import org.junit.jupiter.api.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,8 +53,24 @@ public class CalculatorTest {
     @Test
     @Order(2)
     void needUpdate() {
-        Map<Coordinate, Cell> frontier = calculator.getFrontier();
+        Coordinate[] updated = calculator.updatedCells();
         calculator.needUpdate();
+        Coordinate[] updated2 = calculator.updatedCells();
+        assertNotEquals(updated, calculator.updatedCells());
+    }
+    @Test
+    @Order(6)
+    void newUpdate(){
+        NotifierTestClass notifierTestClass = new NotifierTestClass();
+        Map<Coordinate, Cell> frontier = calculator.getFrontier();
+        Map<Coordinate, Cell> map = new HashMap<>();
+        map.put(new Coordinate(1, 1), new Cell(10));
+        map.put(new Coordinate(1, 2), new Cell(0));
+        map.put(new Coordinate(2, 2), new Cell(0));
+        map.put(new Coordinate(2, 1), new Cell(0));
+
+        notifierTestClass.setMap(map);
+        calculator.newUpdate(notifierTestClass);
         assertNotEquals(frontier, calculator.getFrontier());
     }
 

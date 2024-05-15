@@ -31,11 +31,13 @@ public class View extends GridPane implements Observer {
     }
 
     public void setInitialMap(InitialMap initialMap){
+        this.getChildren().clear();
         Coordinate size = initialMap.getSize();
         cells = new Rectangle[size.x()][size.y()];
+
         for (int i = 0; i < size.x(); i++) {
             for (int j = 0; j < size.y(); j++) {
-                cells[i][j] = new Rectangle( (double) 800 / size.x(), (double) 700 / size.y());
+                cells[i][j] = new Rectangle( (double) 600 / size.x(), (double) 700 / size.y());
                 Cell cell = initialMap.getCell(i, j);
                 drawCell(cell, new Coordinate(i, j));
                 this.add(cells[i][j], i, j);
