@@ -1,14 +1,14 @@
 package se.oru.wildfire;
 
 import javafx.geometry.Bounds;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 
 public class View extends GridPane implements Observer {
-    private Rectangle[][] cells;
+    private Rectangle[][] cells = new Rectangle[0][0];
     private Color paintColor = Color.DARKGREEN;
     private int brushSize = 1;
     private boolean mousePressed = false;
@@ -20,6 +20,21 @@ public class View extends GridPane implements Observer {
     private final Color fireColor = Color.DARKORANGE;
     private final Color burnedOutColor = Color.BLACK;
     private final Color noneColor = Color.WHITE;
+
+    public View(){
+        setManaged(false);
+        widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> resizeChildren());
+        heightProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> resizeChildren());
+    }
+
+    private void resizeChildren(){
+        for (Rectangle[] row : cells) {
+            for (Rectangle cell : row) {
+                cell.setWidth(Math.floor(widthProperty().doubleValue() / (double)cells.length));
+                cell.setHeight(Math.floor(heightProperty().doubleValue() / (double)cells[0].length));
+            }
+        }
+    }
 
     @Override
     public void newUpdate(Notifier o) {
@@ -133,11 +148,6 @@ public class View extends GridPane implements Observer {
         }
     }
 
-
-
-    // Future implementations
-
-
     public void redrawMap(){
         // TODO: Implement
     }
@@ -165,5 +175,13 @@ public class View extends GridPane implements Observer {
             }
         }
         return new InitialMap(mapData);
+    }
+
+    public void resize(){
+        if (getParent() instanceof Pane){
+            Pane pane = (Pane) getParent();
+            setHeight(pane.getHeight());
+            setWidth(pane.getWidth());
+        }
     }
 }
