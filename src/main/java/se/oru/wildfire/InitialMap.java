@@ -27,6 +27,9 @@ public class InitialMap {
      * @return Type Cell
      */
     public Cell getCell(int x, int y){
+        if (x < 0 || y < 0){
+            return null;
+        }
         return map[x][y];
     }
 
