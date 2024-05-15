@@ -1,7 +1,6 @@
 package se.oru.wildfire;
 
 import java.util.*;
-
 public class Calculator implements Observer, Notifier{
 
     public enum WindDirection {
@@ -88,6 +87,7 @@ public class Calculator implements Observer, Notifier{
                                                 new Coordinate(coord.x()+1, coord.y()),
                                                 new Coordinate(coord.x(), coord.y()-1),
                                                 new Coordinate(coord.x(), coord.y()+1)};
+
             for (Coordinate neighbourCoordinate : neighbourCoordinates){
                 if (frontier.containsKey(neighbourCoordinate)){
                     neighbours.put(neighbourCoordinate, frontier.get(neighbourCoordinate));
@@ -136,6 +136,14 @@ public class Calculator implements Observer, Notifier{
                         }
                     } else {
                         cell.ignite();
+                    }
+                    for (Coordinate cord :  neighbours.keySet()){
+                        if (neighbours.get(cord).getGroundType() == Cell.GroundType.Water && cell.isBurning() && neighbours.get(cord).getGroundType() != null){
+                            cell.setBurnedLevel(0);
+                        }
+                        if (neighbours.get(cord).getGroundType() == Cell.GroundType.Stone  && cell.isBurning() &&  neighbours.get(cord).getGroundType() != null){
+                            cell.setBurnedLevel(cell.burnedLevel() - 5);
+                        }
                     }
                     isAffected = true;
                 }
