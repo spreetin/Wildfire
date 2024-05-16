@@ -121,7 +121,7 @@ public class View extends GridPane implements Observer {
                 handleCellMouseOver(event);
             }
         });
-        this.setOnMouseReleased(_ -> mousePressed = false);
+        this.setOnMouseReleased(ignore -> mousePressed = false);
     }
 
     private void handleCellMouseOver(MouseEvent event) {
