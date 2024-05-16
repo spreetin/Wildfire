@@ -24,7 +24,7 @@ public class MainWindow {
         paintManager = new PaintManager();
         //view.setMaxWidth(Double.MAX_VALUE);
         //view.setMaxHeight(Double.MAX_VALUE);
-        controller = new Controller(view);
+        controller = new Controller(view, newWindow);
 
         // Set up controls elements
         Pane painterGroup = paintManager.createLayout(view);
