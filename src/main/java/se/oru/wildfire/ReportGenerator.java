@@ -43,7 +43,7 @@ public class ReportGenerator {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             //Header
-            writer.write("Simulation : Burned and Burning \n");
+            writer.write("Simulation : Burning and Burned \n");
 
             // Write Data
             for (int i = 0; i < exportBurning.length; i++) {

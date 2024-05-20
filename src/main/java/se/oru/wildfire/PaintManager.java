@@ -51,7 +51,7 @@ public class PaintManager {
         Label buttonLabel = new Label("Paint Control");
         buttonLabel.setMaxWidth(Double.MAX_VALUE);
         buttonLabel.setAlignment(Pos.CENTER);
-        buttonLabel.getStyleClass().add("label");
+        buttonLabel.getStyleClass().add("label-banner");
 
         // Brush Slider
         Slider brushSizeSlider = new Slider(0,10,0);
@@ -62,10 +62,10 @@ public class PaintManager {
         brushSizeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             view.setBrushSize(newVal.intValue());
         });
-        brushSizeSlider.getStyleClass().add("brush-slider");
+        brushSizeSlider.getStyleClass().add("slider");
 
         Label brushSizeLabel = new Label("Brush Size");
-        brushSizeLabel.getStyleClass().add("label");
+        brushSizeLabel.getStyleClass().add("label-banner");
         brushSizeLabel.setAlignment(Pos.CENTER);
         brushSizeLabel.setMaxWidth(Double.MAX_VALUE);
 

@@ -16,6 +16,7 @@ public class Calculator implements Observer, Notifier{
     final Map<Coordinate, Cell> updatedCells;
     WindDirection windDirection = WindDirection.None;
     boolean hasWind = false;
+    double windIntensity = 0.0;
     public Calculator(){
         listeners = new ArrayList<>();
         frontier = new HashMap<>();
@@ -68,13 +69,13 @@ public class Calculator implements Observer, Notifier{
             }
         }
     }
-    private int windTurbulence() {
+    private double windTurbulence() {
         double freq = 0.5;
-        double amplitude = 50;
+        double amplitude = 0.3;
         double timer = System.currentTimeMillis() / 1000.0;
         double turbulence = amplitude * Math.sin(Math.PI * freq * timer);
         turbulence = Math.abs(turbulence);
-        return (int)turbulence;
+        return turbulence;
     }
     public void needUpdate(){
         updatedCells.clear();
@@ -116,28 +117,28 @@ public class Calculator implements Observer, Notifier{
                                 if (coordinate.y() > coord.y()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.y() < coord.y()) {
-                                    spreadingProbability -= 0.22;
+                                    spreadingProbability -= windIntensity * windTurbulence();
                                 }
                                 break;
                             case South:
                                 if (coordinate.y() < coord.y()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.y() > coord.y()) {
-                                    spreadingProbability -= 0.22;
+                                    spreadingProbability -= windIntensity * windTurbulence();
                                 }
                                 break;
                             case East:
                                 if (coordinate.x() < coord.x()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.x() > coord.x()) {
-                                    spreadingProbability -= 0.22;
+                                    spreadingProbability -= windIntensity * windTurbulence();
                                 }
                                 break;
                             case West:
                                 if (coordinate.x() > coord.x()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.x() < coord.x()) {
-                                    spreadingProbability -= 0.22;
+                                    spreadingProbability -= windIntensity * windTurbulence();
                                 }
                                 break;
                         }
@@ -152,9 +153,14 @@ public class Calculator implements Observer, Notifier{
                 }
             }
             if (cell.isBurning()){
+//                if(random.nextDouble() < 0.05){
+//                    burnChange += 100;
+//                } else{
+//                    burnChange += 10;
+//                }
                 burnChange += 10;
             }
-            if (burnChange != 0){
+            if(burnChange != 0) {
                 cell.setBurnedLevel(cell.burnedLevel() + burnChange);
                 updatedCells.put(coord, cell);
             }
@@ -216,6 +222,10 @@ public class Calculator implements Observer, Notifier{
 
     void setHasWind(boolean wind){
         hasWind = wind;
+    }
+
+    void setWindIntensity(double intensity){
+        windIntensity = intensity;
     }
 
     void setInitialMap(InitialMap map){
