@@ -198,9 +198,10 @@ public class SimulationController implements TickObserver{
 
         // animation Slider
         animationSlider = new Slider();
-        animationSlider.setMinWidth(230);
-        animationSlider.setPadding(new Insets(0, 0, 40, 0));
-        animationSlider.setMin(0);
+        animationSlider.setMajorTickUnit(20);
+        animationSlider.setShowTickMarks(false);
+        animationSlider.setMinorTickCount(0);
+        animationSlider.setSnapToTicks(false);
         animationSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -210,18 +211,49 @@ public class SimulationController implements TickObserver{
                 blockTickUpdate = false;
             }
         });
+        animationSlider.getStyleClass().add("slider");
+
+        Label windIntensityLabel = new Label("Set wind speed");
+        windIntensityLabel.getStyleClass().add("label-inline");
+        Slider windIntensitySlider = new Slider(0.0,1.0,0.0);
+        windIntensitySlider.setMajorTickUnit(0.05);
+        windIntensitySlider.setShowTickMarks(false);
+        windIntensitySlider.setMinorTickCount(0);
+        windIntensitySlider.setSnapToTicks(false);
+        windIntensitySlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            controller.setWindIntensity(newVal.doubleValue());
+        });
+        windIntensitySlider.getStyleClass().add("slider");
+        VBox windSlider = new VBox(windIntensityLabel, windIntensitySlider);
+        windSlider.setAlignment(Pos.CENTER);
+
+        Label animationSpeedSliderLabel = new Label("Set animation speed");
+        animationSpeedSliderLabel.getStyleClass().add("label-inline");
+        Slider animationSpeedSlider = new Slider(-300,-20,-100);
+        animationSpeedSlider.setMajorTickUnit(20);
+        animationSpeedSlider.setShowTickMarks(false);
+        animationSpeedSlider.setMinorTickCount(0);
+        animationSpeedSlider.setSnapToTicks(false);
+        animationSpeedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            controller.setTickSpeed(-newVal.intValue());
+        });
+        animationSpeedSlider.getStyleClass().add("slider");
+        VBox animationSpeed = new VBox(animationSpeedSliderLabel, animationSpeedSlider);
+        animationSpeed.setAlignment(Pos.CENTER);
 
         VBox layout = new VBox(mapResize,
                 windControlLabel,
                 windDirectionControl,
+                windSlider,
                 animationControlLabel,
                 animationControlButtons,
+                animationSpeed,
                 animationSliderLabel,
                 animationSlider,
                 reportGenerationLabel,
                 fileReportButtons);
         layout.setAlignment(Pos.CENTER);
-        layout.setSpacing(10);
+        layout.setSpacing(5);
 
         VBox simulationGroup= new VBox(layout);
         simulationGroup.getStylesheets().add(css);
@@ -246,7 +278,7 @@ public class SimulationController implements TickObserver{
 
     private Label newLabel(String name){
         Label newLabel = new Label(name);
-        newLabel.getStyleClass().add("label");
+        newLabel.getStyleClass().add("label-banner");
         newLabel.setAlignment(Pos.CENTER);
         newLabel.setMaxWidth(Double.MAX_VALUE);
         return newLabel;

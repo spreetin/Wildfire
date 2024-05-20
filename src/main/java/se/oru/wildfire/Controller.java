@@ -85,6 +85,10 @@ public class Controller implements ActionListener {
         calculator.setHasWind(wind);
     }
 
+    public void setWindIntensity(double intensity){
+        calculator.setWindIntensity(intensity);
+    }
+
     public void resetWithMap(){
         setActiveTick(0);
     }
