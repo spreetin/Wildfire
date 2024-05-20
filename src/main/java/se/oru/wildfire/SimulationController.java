@@ -1,5 +1,7 @@
 package se.oru.wildfire;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -11,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class SimulationController {
+public class SimulationController implements TickObserver{
     private final ObservableList<String> sizeOptions =
             FXCollections.observableArrayList(
                     "50x50",
@@ -24,8 +26,11 @@ public class SimulationController {
     private ExtendedButton currentButton;
     private Boolean windControl = false;
     private ExtendedButton currentWindDirection;
+    boolean blockTickUpdate = false;
 
     Pane createLayout(Controller controller){
+        controller.addTickObserver(this);
+
         String css = this.getClass().getResource("/styles.css").toExternalForm();
 
         // Dropdown menu of sizes
@@ -163,6 +168,15 @@ public class SimulationController {
         animationSlider = new Slider();
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
+        animationSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if (!blockTickUpdate){
+                    controller.setActiveTick(number.intValue());
+                }
+                blockTickUpdate = false;
+            }
+        });
 
         VBox layout = new VBox(mapResize,
                 windControlLabel,
@@ -183,9 +197,18 @@ public class SimulationController {
         return simulationGroup;
     }
 
+    @Override
     public void addTick(){
+        blockTickUpdate = true;
         animationSlider.setMax(animationSlider.getValue()+1);
         animationSlider.setValue(animationSlider.getMax());
+    }
+
+    @Override
+    public void setTick(int tick){
+        blockTickUpdate = true;
+        animationSlider.setMax(tick);
+        animationSlider.setValue(tick);
     }
 
     private Label newLabel(String name){

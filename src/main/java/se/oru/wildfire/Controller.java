@@ -16,6 +16,7 @@ public class Controller implements ActionListener {
     final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
     final Timer timer = new Timer(500, this);
     final Stage stage;
+    final ArrayList<TickObserver> tickObservers = new ArrayList<>();
 
     public Controller(View view, Stage stage){
         this.stage = stage;
@@ -25,6 +26,10 @@ public class Controller implements ActionListener {
         model.registerListener(calculator);
         calculator.registerListener(model);
         setMapSize(50,50);
+    }
+
+    public void addTickObserver(TickObserver tickObserver){
+        tickObservers.add(tickObserver);
     }
 
     public void setMapSize(int width, int height) {
@@ -61,6 +66,9 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         calculator.needUpdate();
+        for (TickObserver tickObserver : tickObservers) {
+            tickObserver.addTick();
+        }
     }
 
     public void setWindDirection(Calculator.WindDirection windDirection){
@@ -81,7 +89,11 @@ public class Controller implements ActionListener {
             InitialMap initialMap = new InitialMap(tick);
             view.setInitialMap(initialMap);
             model.setInitialMap(initialMap);
+            calculator.setInitialMap(initialMap);
             frameStatistics.setCurrentTick(tickNumber);
+            for (TickObserver tickObserver : tickObservers){
+                tickObserver.setTick(tickNumber);
+            }
         }
     }
 

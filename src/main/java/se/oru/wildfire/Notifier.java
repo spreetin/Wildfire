@@ -36,4 +36,6 @@ public interface Notifier {
     }
 
     boolean isDifferent(int x, int y);
+
+    void registerListener(Observer obj);
 }

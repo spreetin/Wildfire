@@ -37,6 +37,7 @@ public class Model implements Observer, Notifier {
         }
     }
 
+    @Override
     public void registerListener(Observer obj){
         listeners.add(obj);
     }
