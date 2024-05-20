@@ -106,36 +106,36 @@ public class Calculator implements Observer, Notifier{
                         switch (windDirection){
                             case North:
                                 if (coordinate.y() > coord.y()){
-                                    burnChange += 20;
+                                    burnChange += windTurbulence();
                                 } else if (coordinate.y() < coord.y()){
-                                    burnChange += 5;
+                                    burnChange += windTurbulence()/4;
                                 } else {
                                     burnChange += 10;
                                 }
                                 break;
                             case East:
                                 if (coordinate.x() < coord.x()){
-                                    burnChange += 20;
+                                    burnChange += windTurbulence();
                                 } else if (coordinate.x() > coord.x()){
-                                    burnChange += 5;
+                                    burnChange += windTurbulence()/4;
                                 } else {
                                     burnChange += 10;
                                 }
                                 break;
                             case South:
                                 if (coordinate.y() < coord.y()){
-                                    burnChange += 20;
+                                    burnChange += windTurbulence();
                                 } else if (coordinate.y() > coord.y()){
-                                    burnChange += 5;
+                                    burnChange += windTurbulence()/4;
                                 } else {
                                     burnChange += 10;
                                 }
                                 break;
                             case West:
                                 if (coordinate.x() > coord.x()){
-                                    burnChange += 20;
+                                    burnChange += windTurbulence();
                                 } else if (coordinate.x() < coord.x()){
-                                    burnChange += 5;
+                                    burnChange += windTurbulence()/4;
                                 } else {
                                     burnChange += 10;
                                 }
