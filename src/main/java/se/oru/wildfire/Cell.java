@@ -31,10 +31,6 @@ public class Cell {
         m_type = ground;
     }
 
-    public void ignite(){
-        m_burning += 10;
-    }
-
     public boolean burnedOut(){
         return m_burning >= burnedOutLevel;
     }
@@ -51,8 +47,6 @@ public class Cell {
         m_burning = level;
         if (m_burning < 0)
             m_burning = 0;
-        if (m_burning > burnedOutLevel)
-            m_burning = burnedOutLevel;
     }
 
     public GroundType getGroundType(){
@@ -69,14 +63,5 @@ public class Cell {
 
     public boolean canSpread(){
         return m_burning >= 30 && !burnedOut();
-    }
-
-    public void soak(){
-        if (isBurning()){
-            m_burning -= 25;
-            if (m_burning < 0){
-                m_burning = 0;
-            }
-        }
     }
 }

@@ -8,7 +8,7 @@ public class InitialMap {
     private final Cell[][] map;
 
     public InitialMap(Cell[][] mapData){
-        map = mapData;
+        map = deepCopyMap(mapData);
     }
 
     /**
@@ -39,5 +39,15 @@ public class InitialMap {
 
     public Cell[][] getMap(){
         return map;
+    }
+
+    public Cell[][] deepCopyMap(Cell[][] map){
+        Cell[][] result = new Cell[map.length][map[0].length];
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                result[i][j] = new Cell(map[i][j]);
+            }
+        }
+        return result;
     }
 }

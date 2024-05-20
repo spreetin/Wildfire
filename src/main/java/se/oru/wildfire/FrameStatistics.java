@@ -1,5 +1,6 @@
 package se.oru.wildfire;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class FrameStatistics implements Observer {
         for (int i=1;i<=tick;i++){
             if (!ticks.containsKey(i))
                 return null;
-            Map<Coordinate, Cell> updatesInTick = ticks.get(tick);
+            Map<Coordinate, Cell> updatesInTick = ticks.get(i);
             for (Coordinate coord : updatesInTick.keySet()){
                 result[coord.x()][coord.y()] = new Cell(updatesInTick.get(coord));
             }
