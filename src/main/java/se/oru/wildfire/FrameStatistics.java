@@ -54,7 +54,7 @@ public class FrameStatistics implements Observer {
         Map<Coordinate, Cell> updatesInTick = new HashMap<>();
         Coordinate[] updatedCells = o.updatedCells();
         for (Coordinate coordinate : updatedCells){
-            updatesInTick.put(coordinate, o.retrieveCell(coordinate));
+            updatesInTick.put(coordinate, new Cell(o.retrieveCell(coordinate)));
         }
         currentTick++;
         // Clean out all superseded ticks.

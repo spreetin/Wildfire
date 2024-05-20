@@ -9,7 +9,7 @@ public class Calculator implements Observer, Notifier{
         South,
         West,
         None
-    };
+    }
 
     final List<Observer> listeners;
     final Map<Coordinate, Cell> frontier;
@@ -179,6 +179,7 @@ public class Calculator implements Observer, Notifier{
         return updatedCells.containsKey(new Coordinate(x, y));
     }
 
+    @Override
     public void registerListener(Observer obj){
         listeners.add(obj);
     }

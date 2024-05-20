@@ -26,4 +26,9 @@ public class NotifierTestClass implements Notifier{
     public boolean isDifferent(int x, int y) {
         return map.containsKey(new Coordinate(x, y));
     }
+
+    @Override
+    public void registerListener(Observer obj) {
+
+    }
 }
