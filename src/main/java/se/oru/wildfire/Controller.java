@@ -1,8 +1,11 @@
 package se.oru.wildfire;
 
+import javafx.stage.Stage;
+
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Controller implements ActionListener {
 
@@ -12,8 +15,10 @@ public class Controller implements ActionListener {
     final FrameStatistics frameStatistics = new FrameStatistics();
     final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
     final Timer timer = new Timer(500, this);
+    final Stage stage;
 
-    public Controller(View view){
+    public Controller(View view, Stage stage){
+        this.stage = stage;
         this.view = view;
         model.registerListener(view);
         model.registerListener(frameStatistics);
@@ -34,6 +39,7 @@ public class Controller implements ActionListener {
         view.setInitialMap(initialMap);
         model.setInitialMap(initialMap);
     }
+
     public void setTickSpeed(int msecs){
         timer.setDelay(msecs);
     }
@@ -77,5 +83,20 @@ public class Controller implements ActionListener {
             model.setInitialMap(initialMap);
             frameStatistics.setCurrentTick(tickNumber);
         }
+    }
+
+    public void saveMap(){
+        Cell[][] map = frameStatistics.getTick(0);
+        if (map != null){
+            MapFileHandler.saveMap(map, stage);
+        }
+    }
+
+    public void loadMap(){
+        Cell[][] map = MapFileHandler.loadMap(stage);
+        InitialMap initialMap = new InitialMap(map);
+        frameStatistics.setCurrentTick(0);
+        view.setInitialMap(initialMap);
+        model.setInitialMap(initialMap);
     }
 }
