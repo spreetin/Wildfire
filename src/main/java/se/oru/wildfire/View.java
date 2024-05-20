@@ -168,7 +168,7 @@ public class View extends GridPane implements Observer {
                     } else if (c == burnedOutColor){
                         mapData[i][j] = new Cell(100);
                     } else if (c == fireColor){
-                        mapData[i][j] = new Cell(10);
+                        mapData[i][j] = new Cell(30);
                     }
                 } else {
                     mapData[i][j] = new Cell();
