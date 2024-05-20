@@ -63,25 +63,22 @@ public class MapFileHandler {
                 ArrayList<Cell[]> array = new ArrayList<>();
                 while (scanner.hasNextLine()){
                     String line = scanner.nextLine();
-                    String[] split = line.split(";");
+                    String[] split = line.split("/");
                     Cell[] row = new Cell[split.length];
                     for (int i=0;i<split.length;i++){
-                        String item = split[i];
-                        String[] parts = item.split("/");
-                        for (String part : parts){
-                            Cell cell = new Cell();
-                            if (Objects.equals(part, "T")){
-                                cell.setGroundType(Cell.GroundType.Trees);
-                            } else if (Objects.equals(part, "W")){
-                                cell.setGroundType(Cell.GroundType.Water);
-                            } else if (Objects.equals(part, "S")){
-                                cell.setGroundType(Cell.GroundType.Stone);
-                            } else if (Objects.equals(part, "F")){
-                                cell.setGroundType(Cell.GroundType.Trees);
-                                cell.setBurnedLevel(10);
-                            }
-                            row[i] = cell;
+                        String part = split[i];
+                        Cell cell = new Cell();
+                        if (Objects.equals(part, "T")){
+                            cell.setGroundType(Cell.GroundType.Trees);
+                        } else if (Objects.equals(part, "W")){
+                            cell.setGroundType(Cell.GroundType.Water);
+                        } else if (Objects.equals(part, "S")){
+                            cell.setGroundType(Cell.GroundType.Stone);
+                        } else if (Objects.equals(part, "F")){
+                            cell.setGroundType(Cell.GroundType.Trees);
+                            cell.setBurnedLevel(10);
                         }
+                        row[i] = cell;
                     }
                     array.add(row);
                 }
