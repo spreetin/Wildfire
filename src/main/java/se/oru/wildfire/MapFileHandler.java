@@ -17,7 +17,7 @@ public class MapFileHandler {
     public static boolean saveMap(Cell[][] map, Stage stage){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose map location");
-        File file = fileChooser.showOpenDialog(stage);
+        File file = fileChooser.showSaveDialog(stage);
         String data;
         ArrayList<String> rows = new ArrayList<>();
         StringBuilder main_sb = new StringBuilder();
