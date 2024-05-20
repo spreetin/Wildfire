@@ -17,6 +17,7 @@ public class Controller implements ActionListener {
     final Timer timer = new Timer(80, this);
     final Stage stage;
     final ArrayList<TickObserver> tickObservers = new ArrayList<>();
+    boolean tickChanged = false;
 
     public Controller(View view, Stage stage){
         this.stage = stage;
@@ -65,6 +66,11 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (tickChanged){
+            for (TickObserver tickObserver : tickObservers){
+                tickObserver.setTick(frameStatistics.getCurrentTick());
+            }
+        }
         calculator.needUpdate();
         for (TickObserver tickObserver : tickObservers) {
             tickObserver.addTick();
@@ -85,15 +91,14 @@ public class Controller implements ActionListener {
 
     public void setActiveTick(int tickNumber){
         if (frameStatistics.hasTick(tickNumber)){
+            pauseTimer();
             Cell[][] tick = frameStatistics.getTick(tickNumber);
             InitialMap initialMap = new InitialMap(tick);
             view.setInitialMap(initialMap);
             model.setInitialMap(initialMap);
             calculator.setInitialMap(initialMap);
             frameStatistics.setCurrentTick(tickNumber);
-            for (TickObserver tickObserver : tickObservers){
-                tickObserver.setTick(tickNumber);
-            }
+            tickChanged = true;
         }
     }
 
