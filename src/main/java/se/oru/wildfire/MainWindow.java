@@ -13,7 +13,7 @@ public class MainWindow {
     final View view;
     final Controller controller;
     final PaintManager paintManager;
-    final SimulationController simulationController = new SimulationController();
+    final SimulationController simulationController;
 
     public MainWindow(){
         Stage newWindow = new Stage();
@@ -22,8 +22,7 @@ public class MainWindow {
         // Create view
         view = new View();
         paintManager = new PaintManager();
-        //view.setMaxWidth(Double.MAX_VALUE);
-        //view.setMaxHeight(Double.MAX_VALUE);
+        simulationController = new SimulationController();
         controller = new Controller(view, newWindow);
 
         // Set up controls elements
