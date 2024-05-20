@@ -27,6 +27,7 @@ public class SimulationController implements TickObserver{
     private Boolean windControl = false;
     private ExtendedButton currentWindDirection;
     boolean blockTickUpdate = false;
+    private Boolean running = false;
 
     Pane createLayout(Controller controller){
         controller.addTickObserver(this);
@@ -55,10 +56,14 @@ public class SimulationController implements TickObserver{
                     break;
             }
         });
+        dropDownSizeMenu.getStyleClass().add("combo-box");
+
         // Animation controls
         ExtendedButton playButton = new ExtendedButton("Play", "play");
         playButton.setOnMousePressed(event -> {
             playButton.buttonActive(currentButton);
+            running = true;
+            playButton.setText("Running");
             currentButton = playButton;
         });
         playButton.setOnAction(event -> controller.startTimer());
@@ -66,6 +71,10 @@ public class SimulationController implements TickObserver{
         ExtendedButton pauseButton = new ExtendedButton("Pause", "pause");
         pauseButton.setOnMousePressed(event -> {
             pauseButton.buttonActive(currentButton);
+            if(running){
+                running = false;
+                playButton.setText("Play");
+            }
             currentButton = pauseButton;
         });
         pauseButton.setOnAction(event -> controller.pauseTimer());
@@ -73,19 +82,25 @@ public class SimulationController implements TickObserver{
         ExtendedButton resetButton = new ExtendedButton("Reset", "reset");
         resetButton.setOnMousePressed(event -> {
             resetButton.buttonStayActive();
+            if(running){
+                running = false;
+                playButton.setText("Play");
+
+            }
+            pauseButton.getStyleClass().remove("active");
+            playButton.getStyleClass().remove("active");
         });
-        resetButton.setOnAction(event -> controller.resetWithMap());
+        resetButton.setOnAction(event -> {
+            controller.resetWithMap();
+            controller.pauseTimer();
+        });
 
         // Wind Controls
         ExtendedButton windEnabler = new ExtendedButton("Wind Off", "wind");
         windEnabler.setOnMousePressed(event -> {
             windControl = !windControl;
             windEnabler.buttonStayActive();
-            if(windControl){
-                windEnabler.setText("Wind On");
-            }else{
-                windEnabler.setText("Wind Off");
-            }
+            windEnabler.setText(windControl ? "Wind On" : "Wind Off");
         });
         windEnabler.setOnAction(event -> {
             controller.setWind(windControl);
@@ -127,11 +142,24 @@ public class SimulationController implements TickObserver{
             controller.setWindDirection(Calculator.WindDirection.East);
         });
 
-        ExtendedButton exportReport = new ExtendedButton("Export", "");
+        // Report,save and load controls
+        ExtendedButton exportReport = new ExtendedButton("Export", "report");
         exportReport.setOnMousePressed(event -> {
             exportReport.buttonActive(currentButton);
         });
         exportReport.setOnAction(event -> controller.reportGenerator.recordCounter());
+
+        ExtendedButton saveMap = new ExtendedButton("Save", "report");
+        saveMap.setOnMousePressed(event -> {
+            saveMap.buttonActive(currentButton);
+        });
+        saveMap.setOnAction(event -> controller.saveMap());
+
+        ExtendedButton loadMap = new ExtendedButton("Load", "report");
+        loadMap.setOnMousePressed(event -> {
+            loadMap.buttonActive(currentButton);
+        });
+        loadMap.setOnAction(event -> controller.loadMap());
 
         // Labelling
         Label mapResizerLabel = newLabel("Resize Map");
@@ -160,7 +188,11 @@ public class SimulationController implements TickObserver{
 
         HBox animationControlButtons = new HBox(playButton, pauseButton, resetButton);
         animationControlButtons.setAlignment(Pos.CENTER);
-        animationControlButtons.setSpacing(10);
+        animationControlButtons.setSpacing(5);
+
+        HBox fileReportButtons = new HBox(saveMap,loadMap,exportReport);
+        fileReportButtons.setAlignment(Pos.CENTER);
+        fileReportButtons.setSpacing(5);
 
 
 
@@ -187,7 +219,7 @@ public class SimulationController implements TickObserver{
                 animationSliderLabel,
                 animationSlider,
                 reportGenerationLabel,
-                exportReport);
+                fileReportButtons);
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(10);
 

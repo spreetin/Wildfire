@@ -108,6 +108,18 @@
     -fx-text-fill: white;
 }
 
+.button-report {
+    -fx-background-color: white;
+    -fx-text-fill: grey;
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+}
+
+.button-report:hover{
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+}
+
 .button-wind-direction {
     -fx-min-width: 45px;
     -fx-min-height: 20px;
@@ -148,5 +160,29 @@
     -fx-pref-width: 16px;
     -fx-pref-height: 16px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
+}
+
+.combo-box {
+    -fx-font-family: Consolas;
+    -fx-pref-width: 200px;
+    -fx-min-height: 25px;
+    -fx-background-color: white;
+    -fx-text-fill: grey;
+    -fx-border-color: grey;
+    -fx-border-width: 2px;
+    -fx-border-radius: 3px;
+}
+.combo-box:hover{
+    -fx-background-color:grey;
+}
+
+.combo-box .list-cell:hover{
+    -fx-background-color:grey;
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell:selected{
+    -fx-background-color:grey;
+    -fx-text-fill: white;
 }
 

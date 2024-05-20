@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Controller implements ActionListener {
 
-    final View view ;
+    final View view;
     final Model model = new Model();
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
