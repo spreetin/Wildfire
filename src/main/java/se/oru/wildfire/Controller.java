@@ -14,7 +14,7 @@ public class Controller implements ActionListener {
     final Calculator calculator = new Calculator();
     final FrameStatistics frameStatistics = new FrameStatistics();
     final ReportGenerator reportGenerator = new ReportGenerator(frameStatistics);
-    final Timer timer = new Timer(500, this);
+    final Timer timer = new Timer(10, this);
     final Stage stage;
 
     public Controller(View view, Stage stage){

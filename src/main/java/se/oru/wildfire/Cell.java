@@ -2,7 +2,7 @@ package se.oru.wildfire;
 
 public class Cell {
 
-    private final int burnedOutLevel = 200;
+    private final int burnedOutLevel = 100;
 
     public enum GroundType {
         None,
@@ -40,7 +40,7 @@ public class Cell {
     }
 
     public boolean isBurning(){
-        return m_burning > 0 && !burnedOut();
+        return m_burning > 10 && !burnedOut();
     }
 
     public int burnedLevel(){
@@ -68,7 +68,7 @@ public class Cell {
     }
 
     public boolean canSpread(){
-        return m_burning >= 10 && !burnedOut();
+        return m_burning >= 30 && !burnedOut();
     }
 
     public void soak(){

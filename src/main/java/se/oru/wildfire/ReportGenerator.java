@@ -16,7 +16,10 @@ public class ReportGenerator {
     }
 
     public void recordCounter(){
-        Cell[][] tickData = frameStatistics.getTick(500); // random int value for now
+        int currentTick = frameStatistics.getCurrentTick();
+        Cell[][] tickData = frameStatistics.getTick(currentTick);
+        exportBurning = new int[tickData.length];
+        exportBurnedOut = new int[tickData.length];
         for (int i=0; i< tickData.length; i++){
             int countBurnedOut= 0;
             int countBurning = 0;
@@ -27,14 +30,15 @@ public class ReportGenerator {
                 else if (tickData[i][j].burnedOut()){
                     countBurnedOut ++;
                 }
-                exportBurning[i] = countBurning;
-                exportBurnedOut[i] = countBurnedOut;
+
             }
+            exportBurning[i] = countBurning;
+            exportBurnedOut[i] = countBurnedOut;
         }
-        generate(tickData);
+        generate();
     }
 
-    private void generate(Cell[][] tickData) {
+    private void generate() {
         String fileName = "Simulation.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -42,8 +46,8 @@ public class ReportGenerator {
             writer.write("Simulation : Burned and Burning \n");
 
             // Write Data
-            for (int i = 0; i < tickData.length; i++) {
-                writer.write(i + ", " + exportBurning[i]+ ", " + exportBurnedOut[i] + "\n");
+            for (int i = 0; i < exportBurning.length; i++) {
+                writer.write(exportBurning[i] + ", " + exportBurnedOut[i] + "\n");
             }
             System.out.println("Report File Written");
         } catch (IOException e){

@@ -78,6 +78,7 @@ public class Calculator implements Observer, Notifier{
     }
     public void needUpdate(){
         updatedCells.clear();
+        Random random = new Random();
         for (Coordinate coord : (frontier.keySet())){
             // Create a copy of the cell in the frontier
             Cell cell = new Cell(frontier.get(coord));
@@ -92,7 +93,12 @@ public class Calculator implements Observer, Notifier{
             Coordinate[] neighbourCoordinates = {new Coordinate(coord.x()-1, coord.y()),
                                                 new Coordinate(coord.x()+1, coord.y()),
                                                 new Coordinate(coord.x(), coord.y()-1),
-                                                new Coordinate(coord.x(), coord.y()+1)};
+                                                new Coordinate(coord.x(), coord.y()+1),
+                                                new Coordinate(coord.x() +1, coord.y()+1),
+                                                new Coordinate(coord.x() -1, coord.y()-1),
+                                                new Coordinate(coord.x() +1, coord.y()-1),
+                                                new Coordinate(coord.x() -1, coord.y()+1)
+            };
 
             for (Coordinate neighbourCoordinate : neighbourCoordinates){
                 if (frontier.containsKey(neighbourCoordinate)){
@@ -101,54 +107,48 @@ public class Calculator implements Observer, Notifier{
             }
             for (Coordinate coordinate : neighbours.keySet()){
                 Cell neighbour = neighbours.get(coordinate);
-                if (neighbour != null && neighbour.canSpread()){
-                    if (hasWind && windDirection != WindDirection.None){
-                        switch (windDirection){
+
+                if (neighbour != null && neighbour.canSpread()) {
+                    double spreadingProbability = 0.3;
+                    if (hasWind && windDirection != WindDirection.None) {
+                        switch (windDirection) {
                             case North:
-                                if (coordinate.y() > coord.y()){
-                                    burnChange += windTurbulence();
-                                } else if (coordinate.y() < coord.y()){
-                                    burnChange += windTurbulence()/4;
-                                } else {
-                                    burnChange += 10;
-                                }
-                                break;
-                            case East:
-                                if (coordinate.x() < coord.x()){
-                                    burnChange += windTurbulence();
-                                } else if (coordinate.x() > coord.x()){
-                                    burnChange += windTurbulence()/4;
-                                } else {
-                                    burnChange += 10;
+                                if (coordinate.y() > coord.y()) {
+                                    spreadingProbability += 0.3;
+                                } else if (coordinate.y() < coord.y()) {
+                                    spreadingProbability -= 0.22;
                                 }
                                 break;
                             case South:
-                                if (coordinate.y() < coord.y()){
-                                    burnChange += windTurbulence();
-                                } else if (coordinate.y() > coord.y()){
-                                    burnChange += windTurbulence()/4;
-                                } else {
-                                    burnChange += 10;
+                                if (coordinate.y() < coord.y()) {
+                                    spreadingProbability += 0.3;
+                                } else if (coordinate.y() > coord.y()) {
+                                    spreadingProbability -= 0.22;
+                                }
+                                break;
+                            case East:
+                                if (coordinate.x() < coord.x()) {
+                                    spreadingProbability += 0.3;
+                                } else if (coordinate.x() > coord.x()) {
+                                    spreadingProbability -= 0.22;
                                 }
                                 break;
                             case West:
-                                if (coordinate.x() > coord.x()){
-                                    burnChange += windTurbulence();
-                                } else if (coordinate.x() < coord.x()){
-                                    burnChange += windTurbulence()/4;
-                                } else {
-                                    burnChange += 10;
+                                if (coordinate.x() > coord.x()) {
+                                    spreadingProbability += 0.3;
+                                } else if (coordinate.x() < coord.x()) {
+                                    spreadingProbability -= 0.22;
                                 }
+                                break;
                         }
-                    } else {
+                    }
+                    if(random.nextDouble() < spreadingProbability){
                         burnChange += 10;
                     }
                 }
+
                 if (neighbour != null && neighbour.getGroundType() == Cell.GroundType.Water){
-                    burnChange -= 35;
-                }
-                if (neighbour != null && neighbour.getGroundType() == Cell.GroundType.Stone && cell.isBurning()){
-                    burnChange -= 5;
+                    burnChange -= 15;
                 }
             }
             if (cell.isBurning()){

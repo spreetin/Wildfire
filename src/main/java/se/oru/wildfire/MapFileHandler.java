@@ -82,7 +82,7 @@ public class MapFileHandler {
                     }
                     array.add(row);
                 }
-                return array.toArray(new Cell[0][]);
+                return array.toArray(new Cell[0][0]);
             } catch (IOException ex){
                 return null;
             }
