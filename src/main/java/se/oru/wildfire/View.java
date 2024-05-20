@@ -67,7 +67,7 @@ public class View extends GridPane implements Observer {
         Rectangle rect = cells[coordinates.x()][coordinates.y()];
         if(rect != null){
             if(cell.isBurning() && cell.getGroundType() != Cell.GroundType.Stone && cell.getGroundType() != Cell.GroundType.Water){
-                color = fireColor;
+                color = fireIntensity(cell.burnedLevel());
             } else if (cell.burnedOut()) {
                 color = burnedOutColor;
             } else {
@@ -82,6 +82,14 @@ public class View extends GridPane implements Observer {
             }
             drawRect(rect, color);
         }
+    }
+
+    private Color fireIntensity(int intensity){
+        if(intensity <=20){ return Color.valueOf("#fdd016");
+        } else if(intensity > 20 && intensity <= 40) { return Color.valueOf("#ffa61d");
+        } else if(intensity > 40 && intensity <= 60) { return Color.valueOf("#fd6e0e");
+        } else if(intensity > 60 && intensity <= 80) { return Color.valueOf("#ee3c00");
+        } else { return Color.DIMGREY; }
     }
 
     public Rectangle[][] getCells(){
@@ -167,7 +175,7 @@ public class View extends GridPane implements Observer {
                         mapData[i][j] = new Cell(Cell.GroundType.Stone);
                     } else if (c == burnedOutColor){
                         mapData[i][j] = new Cell(100);
-                    } else if (c == fireColor){
+                    } else if (c.equals(Color.valueOf("#fdd016")) || c.equals(Color.valueOf("#ffa61d")) || c.equals(Color.valueOf("#fd6e0e")) || c.equals(Color.valueOf("#ee3c00")) || c.equals(Color.DIMGREY) || c == fireColor){
                         mapData[i][j] = new Cell(30);
                     }
                 } else {
