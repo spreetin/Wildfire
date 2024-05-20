@@ -168,6 +168,7 @@ public class SimulationController implements TickObserver{
         animationSlider = new Slider();
         animationSlider.setMinWidth(230);
         animationSlider.setPadding(new Insets(0, 0, 40, 0));
+        animationSlider.setMin(0);
         animationSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {

@@ -17,7 +17,17 @@ public class FrameStatistics implements Observer {
     }
 
     public void setStartingMap(Cell[][] map){
-        startingMap = map;
+        startingMap = deepCopyMap(map);
+    }
+
+    public Cell[][] deepCopyMap(Cell[][] map){
+        Cell[][] result = new Cell[map.length][map[0].length];
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                result[i][j] = new Cell(map[i][j]);
+            }
+        }
+        return result;
     }
 
     public Cell[][] getTick(int tick){
@@ -30,7 +40,7 @@ public class FrameStatistics implements Observer {
         int height = startingMap[0].length;
         if (height == 0)
             return null;
-        Cell[][] result = startingMap;
+        Cell[][] result = deepCopyMap(startingMap);
         if (!ticks.containsKey(tick))
             return null;
         for (int i=1;i<=tick;i++){
@@ -38,7 +48,7 @@ public class FrameStatistics implements Observer {
                 return null;
             Map<Coordinate, Cell> updatesInTick = ticks.get(tick);
             for (Coordinate coord : updatesInTick.keySet()){
-                result[coord.x()][coord.y()] = updatesInTick.get(coord);
+                result[coord.x()][coord.y()] = new Cell(updatesInTick.get(coord));
             }
         }
         return result;
@@ -50,7 +60,6 @@ public class FrameStatistics implements Observer {
 
     @Override
     public void newUpdate(Notifier o) {
-        // Cast o to Model class
         Map<Coordinate, Cell> updatesInTick = new HashMap<>();
         Coordinate[] updatedCells = o.updatedCells();
         for (Coordinate coordinate : updatedCells){
