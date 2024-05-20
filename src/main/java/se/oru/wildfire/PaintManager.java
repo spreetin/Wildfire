@@ -104,7 +104,7 @@ public class PaintManager {
             case "Trees" -> view.setGroundType(Color.DARKGREEN);
             case "Stone" -> view.setGroundType(Color.DIMGRAY);
             case "Water" -> view.setGroundType(Color.DARKBLUE);
-            case "Fire" -> view.setGroundType(Color.DARKORANGE);
+            case "Fire" -> view.setGroundType(Color.valueOf("#ffa61d"));
             default -> {
             }
         }
