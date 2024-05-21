@@ -1,44 +1,41 @@
 package se.oru.wildfire;
 
-import java.awt.*;
 import java.io.BufferedWriter;
-import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 public class ReportGenerator {
-    private int[] exportBurning;
-    private int[] exportBurnedOut;
-    private FrameStatistics frameStatistics;
+    private final FrameStatistics frameStatistics;
 
     public ReportGenerator(FrameStatistics frameStatistics){
         this.frameStatistics = frameStatistics;
     }
 
     public void recordCounter(){
-        int currentTick = frameStatistics.getCurrentTick();
-        Cell[][] tickData = frameStatistics.getTick(currentTick);
-        exportBurning = new int[tickData.length];
-        exportBurnedOut = new int[tickData.length];
-        for (int i=0; i< tickData.length; i++){
+        int tickNum = 0;
+        ArrayList<Integer> burning = new ArrayList<>();
+        ArrayList<Integer> burnedOut = new ArrayList<>();
+        while (frameStatistics.hasTick(tickNum)){
+            Cell[][] tickData = frameStatistics.getTick(tickNum);
             int countBurnedOut= 0;
             int countBurning = 0;
-            for(int j=0;j<tickData[i].length;j++){
-                if (tickData[i][j].isBurning()){
-                    countBurning ++;
+            for (Cell[] tickDatum : tickData) {
+                for (Cell cell : tickDatum) {
+                    if (cell.burnedOut()) {
+                        countBurnedOut++;
+                    } else if (cell.isBurning()) {
+                        countBurning++;
+                    }
                 }
-                else if (tickData[i][j].burnedOut()){
-                    countBurnedOut ++;
-                }
-
             }
-            exportBurning[i] = countBurning;
-            exportBurnedOut[i] = countBurnedOut;
+            burning.add(countBurning);
+            burnedOut.add(countBurnedOut);
         }
-        generate();
+        generate(burning, burnedOut);
     }
 
-    private void generate() {
+    private void generate(ArrayList<Integer> burning, ArrayList<Integer> burnedOut) {
         String fileName = "Simulation.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -46,8 +43,8 @@ public class ReportGenerator {
             writer.write("Simulation : Burning and Burned \n");
 
             // Write Data
-            for (int i = 0; i < exportBurning.length; i++) {
-                writer.write(exportBurning[i] + ", " + exportBurnedOut[i] + "\n");
+            for (int i = 0; i < burning.size(); i++) {
+                writer.write(burning.get(i) + ", " + burnedOut.get(i) + "\n");
             }
             System.out.println("Report File Written");
         } catch (IOException e){
