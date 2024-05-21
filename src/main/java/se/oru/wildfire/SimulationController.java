@@ -215,8 +215,8 @@ public class SimulationController implements TickObserver{
 
         Label windIntensityLabel = new Label("Set wind speed");
         windIntensityLabel.getStyleClass().add("label-inline");
-        Slider windIntensitySlider = new Slider(0.0,1.0,0.0);
-        windIntensitySlider.setMajorTickUnit(0.05);
+        Slider windIntensitySlider = new Slider(0.0,0.3,0.0);
+        windIntensitySlider.setMajorTickUnit(0.01);
         windIntensitySlider.setShowTickMarks(false);
         windIntensitySlider.setMinorTickCount(0);
         windIntensitySlider.setSnapToTicks(false);
