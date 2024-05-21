@@ -16,21 +16,13 @@ public interface Notifier {
 
     default HashMap<Coordinate, Cell> getNeighbours(Coordinate coordinate){
         HashMap<Coordinate, Cell> neighbours = new HashMap<>();
-        if (coordinate.x() > 0){
-            Coordinate newCoord = new Coordinate(coordinate.x()-1, coordinate.y());
-            neighbours.put(newCoord, retrieveCell(newCoord));
-        }
-        if (coordinate.y() > 0){
-            Coordinate newCoord = new Coordinate(coordinate.x(), coordinate.y()-1);
-            neighbours.put(newCoord, retrieveCell(newCoord));
-        }
-        if (retrieveCell(coordinate.x()+1, coordinate.y()) != null){
-            Coordinate newCoord = new Coordinate(coordinate.x()+1, coordinate.y());
-            neighbours.put(newCoord, retrieveCell(newCoord));
-        }
-        if (retrieveCell(coordinate.x(), coordinate.y()+1) != null){
-            Coordinate newCoord = new Coordinate(coordinate.x(), coordinate.y()+1);
-            neighbours.put(newCoord, retrieveCell(newCoord));
+        for (int i=coordinate.x()-1; i<=coordinate.x()+1; i++){
+            for (int j=coordinate.y()-1; j<=coordinate.y()+1; j++){
+                if (i > 0 && j > 0 && retrieveCell(i, j) != null){
+                    neighbours.put(new Coordinate(i, j), retrieveCell(i, j));
+                }
+
+            }
         }
         return neighbours;
     }
