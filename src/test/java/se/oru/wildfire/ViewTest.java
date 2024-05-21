@@ -14,7 +14,7 @@ public class ViewTest {
 
     @Test
     public void setInitialMap() {
-        View view = new View(new PaintManager());
+        View view = new View();
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -34,7 +34,7 @@ public class ViewTest {
 
     @Test
     void newUpdate() {
-        View view = new View(new PaintManager());
+        View view = new View();
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -57,7 +57,7 @@ public class ViewTest {
 
     @Test
     void drawCell(){
-        View view = new View(new PaintManager());
+        View view = new View();
         Cell[][] cells = new Cell[3][3];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {

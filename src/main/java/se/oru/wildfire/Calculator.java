@@ -69,14 +69,7 @@ public class Calculator implements Observer, Notifier{
             }
         }
     }
-    private double windTurbulence() {
-        double freq = 0.5;
-        double amplitude = 0.3;
-        double timer = System.currentTimeMillis() / 1000.0;
-        double turbulence = amplitude * Math.sin(Math.PI * freq * timer);
-        turbulence = Math.abs(turbulence);
-        return turbulence;
-    }
+
     public void needUpdate(){
         updatedCells.clear();
         Random random = new Random();
@@ -117,28 +110,28 @@ public class Calculator implements Observer, Notifier{
                                 if (coordinate.y() > coord.y()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.y() < coord.y()) {
-                                    spreadingProbability -= windIntensity * windTurbulence();
+                                    spreadingProbability -= windIntensity;
                                 }
                                 break;
                             case South:
                                 if (coordinate.y() < coord.y()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.y() > coord.y()) {
-                                    spreadingProbability -= windIntensity * windTurbulence();
+                                    spreadingProbability -= windIntensity;
                                 }
                                 break;
                             case East:
                                 if (coordinate.x() < coord.x()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.x() > coord.x()) {
-                                    spreadingProbability -= windIntensity * windTurbulence();
+                                    spreadingProbability -= windIntensity;
                                 }
                                 break;
                             case West:
                                 if (coordinate.x() > coord.x()) {
                                     spreadingProbability += 0.3;
                                 } else if (coordinate.x() < coord.x()) {
-                                    spreadingProbability -= windIntensity * windTurbulence();
+                                    spreadingProbability -= windIntensity;
                                 }
                                 break;
                         }
@@ -153,11 +146,6 @@ public class Calculator implements Observer, Notifier{
                 }
             }
             if (cell.isBurning()){
-//                if(random.nextDouble() < 0.05){
-//                    burnChange += 100;
-//                } else{
-//                    burnChange += 10;
-//                }
                 burnChange += 10;
             }
             if(burnChange != 0) {
