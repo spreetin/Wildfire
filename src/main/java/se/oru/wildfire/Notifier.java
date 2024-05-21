@@ -18,7 +18,7 @@ public interface Notifier {
         HashMap<Coordinate, Cell> neighbours = new HashMap<>();
         for (int i=coordinate.x()-1; i<=coordinate.x()+1; i++){
             for (int j=coordinate.y()-1; j<=coordinate.y()+1; j++){
-                if (i > 0 && j > 0 && retrieveCell(i, j) != null){
+                if (i >= 0 && j >= 0 && retrieveCell(i, j) != null){
                     neighbours.put(new Coordinate(i, j), retrieveCell(i, j));
                 }
 
