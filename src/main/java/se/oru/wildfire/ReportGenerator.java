@@ -1,44 +1,50 @@
 package se.oru.wildfire;
 
-import java.awt.*;
 import java.io.BufferedWriter;
-import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ReportGenerator {
-    private int[] exportBurning;
-    private int[] exportBurnedOut;
-    private FrameStatistics frameStatistics;
+    private final FrameStatistics frameStatistics;
 
     public ReportGenerator(FrameStatistics frameStatistics){
         this.frameStatistics = frameStatistics;
     }
 
     public void recordCounter(){
-        int currentTick = frameStatistics.getCurrentTick();
-        Cell[][] tickData = frameStatistics.getTick(currentTick);
-        exportBurning = new int[tickData.length];
-        exportBurnedOut = new int[tickData.length];
-        for (int i=0; i< tickData.length; i++){
-            int countBurnedOut= 0;
-            int countBurning = 0;
-            for(int j=0;j<tickData[i].length;j++){
-                if (tickData[i][j].isBurning()){
-                    countBurning ++;
-                }
-                else if (tickData[i][j].burnedOut()){
-                    countBurnedOut ++;
+        int tickNum = 0;
+        ArrayList<Integer> burning = new ArrayList<>();
+        ArrayList<Integer> burnedOut = new ArrayList<>();
+        Cell[][] tickData = frameStatistics.getTick(0);
+        while (frameStatistics.hasTick(tickNum)){
+            if (tickNum > 0){
+                Map<Coordinate, Cell> tickDelta = frameStatistics.getTickDelta(tickNum);
+                for (Coordinate coord : tickDelta.keySet()){
+                    tickData[coord.x()][coord.y()] = tickDelta.get(coord);
                 }
 
             }
-            exportBurning[i] = countBurning;
-            exportBurnedOut[i] = countBurnedOut;
+            int countBurnedOut= 0;
+            int countBurning = 0;
+            for (Cell[] tickDatum : tickData) {
+                for (Cell cell : tickDatum) {
+                    if (cell.burnedOut()) {
+                        countBurnedOut++;
+                    } else if (cell.isBurning()) {
+                        countBurning++;
+                    }
+                }
+            }
+            burning.add(countBurning);
+            burnedOut.add(countBurnedOut);
+            tickNum++;
         }
-        generate();
+        generate(burning, burnedOut);
     }
 
-    private void generate() {
+    private void generate(ArrayList<Integer> burning, ArrayList<Integer> burnedOut) {
         String fileName = "Simulation.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -46,8 +52,8 @@ public class ReportGenerator {
             writer.write("Simulation : Burning and Burned \n");
 
             // Write Data
-            for (int i = 0; i < exportBurning.length; i++) {
-                writer.write(exportBurning[i] + ", " + exportBurnedOut[i] + "\n");
+            for (int i = 0; i < burning.size(); i++) {
+                writer.write(burning.get(i) + ", " + burnedOut.get(i) + "\n");
             }
             System.out.println("Report File Written");
         } catch (IOException e){

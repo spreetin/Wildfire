@@ -234,14 +234,11 @@ public class Calculator implements Observer, Notifier{
         for (int i=0;i<size.x();i++){
             for (int j=0;j<size.y();j++){
                 if (map.getCell(i, j).isBurning()){
-                    for (int k=i-1;k<i+1;k++){
-                        if (map.getCell(k, j) != null && !frontier.containsKey(new Coordinate(k, j))){
-                            frontier.put(new Coordinate(k, j), map.getCell(k, j));
-                        }
-                    }
-                    for (int k=j-1;k<j+1;k++){
-                        if (map.getCell(i, k) != null && !frontier.containsKey(new Coordinate(i, k))){
-                            frontier.put(new Coordinate(i, k), map.getCell(i, k));
+                    for (int k=i-1;k<=i+1;k++){
+                        for (int l=j-1;l<=j+1;l++){
+                            if (map.getCell(k, l) != null && !frontier.containsKey(new Coordinate(k, l))){
+                                frontier.put(new Coordinate(k, l), map.getCell(k, l));
+                            }
                         }
                     }
                 }
