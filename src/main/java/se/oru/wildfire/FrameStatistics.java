@@ -55,6 +55,10 @@ public class FrameStatistics implements Observer {
         return result;
     }
 
+    public Map<Coordinate, Cell> getTickDelta(int tick){
+        return ticks.getOrDefault(tick, null);
+    }
+
     public void setCurrentTick(int tick){
         currentTick = tick;
     }

@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ReportGenerator {
     private final FrameStatistics frameStatistics;
@@ -16,8 +17,15 @@ public class ReportGenerator {
         int tickNum = 0;
         ArrayList<Integer> burning = new ArrayList<>();
         ArrayList<Integer> burnedOut = new ArrayList<>();
+        Cell[][] tickData = frameStatistics.getTick(0);
         while (frameStatistics.hasTick(tickNum)){
-            Cell[][] tickData = frameStatistics.getTick(tickNum);
+            if (tickNum > 0){
+                Map<Coordinate, Cell> tickDelta = frameStatistics.getTickDelta(tickNum);
+                for (Coordinate coord : tickDelta.keySet()){
+                    tickData[coord.x()][coord.y()] = tickDelta.get(coord);
+                }
+
+            }
             int countBurnedOut= 0;
             int countBurning = 0;
             for (Cell[] tickDatum : tickData) {
@@ -31,6 +39,7 @@ public class ReportGenerator {
             }
             burning.add(countBurning);
             burnedOut.add(countBurnedOut);
+            tickNum++;
         }
         generate(burning, burnedOut);
     }
